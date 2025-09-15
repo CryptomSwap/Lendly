@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  RENTER
+  OWNER
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ItemCategory {
+  DRONE
+  CAMERA
+  LENS
+  DJ_TOOL
+  PARTY_GEAR
+  PROJECTOR
+  POWER_TOOL
+  LADDER
+  PRESSURE_WASHER
+  CAMPING
+  APPLIANCE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  DISPUTED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  DISPUTED
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  name              String?
+  phone             String?
+  avatar            String?
+  role              UserRole           @default(RENTER)
+  verificationStatus VerificationStatus @default(PENDING)
+  riskScore         Float?             @default(0)
+  stripeAccountId   String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  // Relations
+  items             Item[]
+  bookingsAsRenter  Booking[]          @relation("RenterBookings")
+  bookingsAsOwner   Booking[]          @relation("OwnerBookings")
+  reviews           Review[]
+  reviewsReceived   Review[]           @relation("ReviewsReceived")
+
+  @@map("users")
+}
+
+model Item {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  category    ItemCategory
+  city        String       @default("Tel Aviv")
+  latitude    Float?
+  longitude   Float?
+  dailyPrice  Int          // ILS in agorot (minor units)
+  deposit     Int          // ILS in agorot
+  images      String[]     @default([])
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  ownerId     String
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  bookings    Booking[]
+  reviews     Review[]
+  availability Availability[]
+
+  @@index([category, city])
+  @@map("items")
+}
+
+model Availability {
+  id        String   @id @default(cuid())
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+
+  // Relations
+  itemId    String
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("availability")
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  startDate       DateTime
+  endDate         DateTime
+  totalDays       Int
+  subtotal        Int           // ILS in agorot
+  insurance       Int           // ILS in agorot
+  fee             Int           // ILS in agorot
+  total           Int           // ILS in agorot
+  deposit         Int           // ILS in agorot
+  promoCode       String?
+  promoDiscount   Int           @default(0) // ILS in agorot
+  status          BookingStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+  stripePaymentIntentId String?
+  insuranceEnabled Boolean      @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  itemId          String
+  item            Item          @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  renterId        String
+  renter          User          @relation("RenterBookings", fields: [renterId], references: [id], onDelete: Cascade)
+  ownerId         String
+  owner           User          @relation("OwnerBookings", fields: [ownerId], references: [id], onDelete: Cascade)
+  reviews         Review[]
+
+  @@map("bookings")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5 stars
+  comment   String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  bookingId String   @unique
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  reviewerId String
+  reviewer  User     @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+  revieweeId String
+  reviewee  User     @relation("ReviewsReceived", fields: [revieweeId], references: [id], onDelete: Cascade)
+  itemId    String
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model PromoCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  discount    Int      // ILS in agorot
+  maxUses      Int?
+  usedCount   Int      @default(0)
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+
+  @@map("promo_codes")
+}
