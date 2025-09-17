@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { stripe } from '@/lib/stripe'
+import { stripe, formatAmountForStripe } from '@/lib/stripe'
 import { calcPricing } from '@/lib/pricing'
 import { isDateRangeAvailable, calculateDaysBetween } from '@/lib/availability'
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // Calculate pricing
     const days = calculateDaysBetween(requestedStart, requestedEnd)
-    const pricing = calcPricing(days, item.dailyPrice, insuranceEnabled ? 0.05 : 0)
+    const pricing = calcPricing(item.dailyPrice, days, insuranceEnabled)
 
     // Apply promo code if provided
     let promoDiscount = 0
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         totalDays: days,
         subtotal: pricing.subtotal,
         insurance: pricing.insurance,
-        fee: pricing.fee,
+        fee: pricing.serviceFee,
         total: finalTotal,
         deposit: item.deposit,
         promoCode: promoCode || null,
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
     // Create Stripe Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: stripe.formatAmountForStripe(finalTotal),
+      amount: formatAmountForStripe(finalTotal),
       currency: 'ils',
       metadata: {
         bookingId: booking.id,

@@ -17,6 +17,7 @@ declare global {
       S3_SECRET_ACCESS_KEY: string;
       POSTHOG_KEY: string;
       SENTRY_AUTH_TOKEN: string;
+      NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: string;
     }
   }
 }

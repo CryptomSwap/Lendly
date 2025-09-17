@@ -6,57 +6,41 @@ import { LennyLogo } from '@/components/LennyLogo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
+import { useState } from 'react'
 import { ItemCategory } from '@prisma/client'
-import { useState, useEffect } from 'react'
 
-// Mock data - in real app this would come from API
-const mockItems = [
-  {
-    id: '1',
-    title: 'DJI Mini 4 Pro Drone',
-    description: 'Professional drone with 4K camera, perfect for aerial photography.',
-    category: 'DRONE' as ItemCategory,
-    dailyPrice: 15000,
-    deposit: 50000,
-    images: ['https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800'],
-    owner: { name: 'David Cohen', verificationStatus: 'VERIFIED' },
-    reviews: [{ rating: 5 }, { rating: 4 }]
-  },
-  {
-    id: '2',
-    title: 'Sony A7S III Camera',
-    description: 'Professional mirrorless camera with 24-70mm lens.',
-    category: 'CAMERA' as ItemCategory,
-    dailyPrice: 20000,
-    deposit: 80000,
-    images: ['https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800'],
-    owner: { name: 'Sarah Levy', verificationStatus: 'VERIFIED' },
-    reviews: [{ rating: 5 }]
-  },
-  {
-    id: '3',
-    title: 'Pioneer DDJ-400 DJ Controller',
-    description: 'Professional DJ controller with Rekordbox integration.',
-    category: 'DJ_TOOL' as ItemCategory,
-    dailyPrice: 12000,
-    deposit: 40000,
-    images: ['https://images.unsplash.com/photo-1571266028243-d220c8b4b4d8?w=800'],
-    owner: { name: 'Michael Ben-David', verificationStatus: 'VERIFIED' },
-    reviews: [{ rating: 4 }, { rating: 5 }]
-  }
-]
+// Import mock data from centralized source
+import { mockItems, getFeaturedItems } from '@/lib/mock'
 
-const allCategories: ItemCategory[] = [
+// Convert mock items to the format expected by this component
+const featuredItems = getFeaturedItems(3).map(item => ({
+  id: item.id,
+  title: item.title,
+  description: item.description,
+  category: item.category.toUpperCase() as ItemCategory,
+  dailyPrice: item.pricePerDay * 100, // Convert to agorot
+  deposit: item.deposit * 100, // Convert to agorot
+  images: [item.image],
+  owner: { 
+    name: item.owner.name, 
+    verificationStatus: item.owner.verified ? 'VERIFIED' : 'PENDING' 
+  },
+  reviews: Array.from({ length: item.reviewCount }, (_, i) => ({ 
+    rating: Math.floor(Math.random() * 2) + 4 // Random 4-5 star ratings
+  }))
+}))
+
+const allCategories: string[] = [
   'DRONE', 'CAMERA', 'LENS', 'DJ_TOOL', 'PARTY_GEAR', 
   'PROJECTOR', 'POWER_TOOL', 'LADDER', 'PRESSURE_WASHER', 
   'CAMPING', 'APPLIANCE'
 ]
 
 export default function Page() {
-  const [selectedCategories, setSelectedCategories] = useState<ItemCategory[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState('')
 
-  const handleCategoryToggle = (category: ItemCategory) => {
+  const handleCategoryToggle = (category: string) => {
     setSelectedCategories(prev => 
       prev.includes(category) 
         ? prev.filter(c => c !== category)
@@ -64,7 +48,7 @@ export default function Page() {
     )
   }
 
-  const filteredItems = mockItems.filter(item => {
+  const filteredItems = featuredItems.filter(item => {
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(item.category)
     const matchesSearch = searchQuery === '' || 
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -178,7 +162,7 @@ export default function Page() {
             <Card 
               key={group.label}
               className="cursor-pointer hover:shadow-lg transition-shadow p-4 text-center"
-              onClick={() => setSelectedCategories(group.categories as ItemCategory[])}
+              onClick={() => setSelectedCategories(group.categories as string[])}
             >
               <CardContent className="space-y-2">
                 <div className="text-3xl">{group.emoji}</div>

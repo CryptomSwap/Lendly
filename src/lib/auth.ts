@@ -5,6 +5,7 @@ import { prisma } from './prisma'
 import bcrypt from 'bcrypt'
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'credentials',

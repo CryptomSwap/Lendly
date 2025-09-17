@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { ItemCategory } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const city = searchParams.get('city') || 'Tel Aviv'
-    const categories = searchParams.get('categories')?.split(',') as ItemCategory[] || []
+    const categories = searchParams.get('categories')?.split(',') || []
     const startDate = searchParams.get('startDate')
     const endDate = searchParams.get('endDate')
 
@@ -47,8 +46,8 @@ export async function GET(request: NextRequest) {
       const requestedStart = new Date(startDate)
       const requestedEnd = new Date(endDate)
       
-      filteredItems = items.filter(item => {
-        return !item.availability.some(block => {
+      filteredItems = items.filter((item: any) => {
+        return !item.availability.some((block: any) => {
           const blockStart = new Date(block.startDate)
           const blockEnd = new Date(block.endDate)
           return requestedStart < blockEnd && requestedEnd > blockStart

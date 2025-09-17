@@ -1,13 +1,12 @@
 import { Badge } from '@/components/ui/badge'
-import { ItemCategory } from '@prisma/client'
 
 interface CategoryPillsProps {
-  categories: ItemCategory[]
-  selectedCategories: ItemCategory[]
-  onCategoryToggle: (category: ItemCategory) => void
+  categories: string[]
+  selectedCategories: string[]
+  onCategoryToggle: (category: string) => void
 }
 
-const categoryLabels: Record<ItemCategory, string> = {
+const categoryLabels: Record<string, string> = {
   DRONE: 'Drones',
   CAMERA: 'Cameras',
   LENS: 'Lenses',
@@ -21,7 +20,7 @@ const categoryLabels: Record<ItemCategory, string> = {
   APPLIANCE: 'Appliances'
 }
 
-const categoryEmojis: Record<ItemCategory, string> = {
+const categoryEmojis: Record<string, string> = {
   DRONE: '🚁',
   CAMERA: '📷',
   LENS: '🔍',
