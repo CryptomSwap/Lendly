@@ -41,6 +41,17 @@ export default function ListItemPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
+  // Skip authentication check for demo purposes
+  const demoSession = {
+    user: {
+      id: 'demo-user-id',
+      email: 'demo@lendly.com',
+      name: 'Demo User',
+      role: 'USER',
+      verificationStatus: 'VERIFIED'
+    }
+  }
+
   if (status === 'loading') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-cream via-cream to-warm-yellow/20 flex items-center justify-center">
@@ -52,23 +63,8 @@ export default function ListItemPage() {
     )
   }
 
-  if (!session) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-cream via-cream to-warm-yellow/20 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center">
-          <CardContent className="pt-6">
-            <h2 className="text-2xl font-bold mb-4">Sign In Required</h2>
-            <p className="text-muted-foreground mb-6">
-              You need to be signed in to list your equipment.
-            </p>
-            <Button asChild>
-              <Link href="/auth/signin">Sign In</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
+  // Use demo session instead of checking authentication
+  const currentSession = demoSession
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -148,7 +144,7 @@ export default function ListItemPage() {
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
               <Button asChild>
-                <Link href="/auth/signin">Sign In</Link>
+                <Link href="/">Home</Link>
               </Button>
             </div>
           </div>

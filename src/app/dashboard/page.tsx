@@ -41,27 +41,24 @@ export default function DashboardPage() {
     )
   }
 
-  if (!session) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-cream via-cream to-warm-yellow/20 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center">
-          <CardContent className="pt-6">
-            <h2 className="text-2xl font-bold mb-4">Access Denied</h2>
-            <p className="text-muted-foreground mb-6">
-              You need to be signed in to access the dashboard.
-            </p>
-            <Button asChild>
-              <Link href="/auth/signin">Sign In</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    )
+  // Skip authentication check for demo purposes
+  const demoSession = {
+    user: {
+      id: 'demo-user-id',
+      email: 'demo@lendly.com',
+      name: 'Demo User',
+      role: 'USER',
+      verificationStatus: 'VERIFIED'
+    }
   }
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: '/' })
+    // Skip sign out for demo purposes
+    window.location.href = '/'
   }
+
+  // Use demo session for display
+  const currentSession = demoSession
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cream via-cream to-warm-yellow/20">
@@ -84,9 +81,9 @@ export default function DashboardPage() {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4" />
-                <span className="text-sm font-medium">{session.user?.name || session.user?.email}</span>
+                <span className="text-sm font-medium">{currentSession.user?.name || currentSession.user?.email}</span>
                 <Badge variant="secondary" className="text-xs">
-                  {session.user?.role || 'USER'}
+                  {currentSession.user?.role || 'USER'}
                 </Badge>
               </div>
               <Button variant="ghost" size="sm" onClick={handleSignOut}>

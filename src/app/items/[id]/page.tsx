@@ -86,12 +86,7 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
 
 
   const handleBooking = async () => {
-    if (!session) {
-      // Redirect to sign in
-      window.location.href = '/auth/signin'
-      return
-    }
-
+    // Skip authentication check for demo purposes
     setIsBooking(true)
     // In a real app, you'd process the booking here
     setTimeout(() => {

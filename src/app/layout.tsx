@@ -49,7 +49,7 @@ export default function RootLayout({
                     <Link href="/dashboard">Dashboard</Link>
                   </Button>
                   <Button asChild>
-                    <Link href="/auth/signin">Sign In</Link>
+                    <Link href="/list-item">List Item</Link>
                   </Button>
                 </div>
               </div>

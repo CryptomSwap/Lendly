@@ -14,26 +14,13 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        })
-
-        if (!user) {
-          return null
-        }
-
-        // For demo purposes, we'll skip password verification
-        // In production, you'd verify the hashed password
+        // Auto-signin for demo purposes - skip authentication
         return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          verificationStatus: user.verificationStatus
+          id: 'demo-user-id',
+          email: 'demo@lendly.com',
+          name: 'Demo User',
+          role: 'USER',
+          verificationStatus: 'VERIFIED'
         }
       }
     }),

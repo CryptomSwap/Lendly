@@ -72,8 +72,8 @@ export function Navbar({ locale }: NavbarProps) {
               </Link>
             </Button>
             <Button asChild>
-              <Link href="/auth/signin">
-                {t(locale, 'signIn')}
+              <Link href="/dashboard">
+                Dashboard
               </Link>
             </Button>
           </div>
@@ -121,8 +121,8 @@ export function Navbar({ locale }: NavbarProps) {
                   </Link>
                 </Button>
                 <Button asChild className="justify-start">
-                  <Link href="/auth/signin" onClick={() => setIsMobileMenuOpen(false)}>
-                    {t(locale, 'signIn')}
+                  <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                    Dashboard
                   </Link>
                 </Button>
               </div>
