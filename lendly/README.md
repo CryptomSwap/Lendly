@@ -1,274 +1,289 @@
-# Lendly - Peer-to-Peer Gear Rental Marketplace
+# 🚀 Lendly - Premium Equipment Rental Marketplace
 
-A production-ready MVP for a global peer-to-peer gear rental marketplace, starting with an Israel pilot. Built with Next.js 14, TypeScript, and modern web technologies.
+A premium, trust-first marketplace for equipment rentals built with Next.js 14, TypeScript, and Tailwind CSS.
 
-## 🚀 Features
+## ✨ Features
 
-- **Search-first homepage** with category browsing and nearby listings
-- **Dynamic deposit risk model** with real-time calculations
-- **Comprehensive safety & insurance UX** with pickup/return checklists
-- **Stripe integration** for payments and Connect for owner payouts
-- **Persona ID verification** with webhook handling
-- **UploadThing + S3** for image uploads
-- **PostHog analytics** and Sentry error reporting
-- **RTL/i18n support** (Hebrew/English)
-- **Mobile-first responsive design** with accessibility features
+### 🏠 **Homepage**
+- Premium hero section with search functionality
+- Trust strip with key differentiators
+- Category grid with hover animations
+- Featured carousel with horizontal scroll
+- Live activity feed
+- How it works section
+- Safety block with protection info
+- Owner call-to-action
+- Customer testimonials
+- FAQ accordion
 
-## 🛠 Tech Stack
+### 🔍 **Results Page**
+- Map + list split view (55% list / 45% map)
+- Advanced filtering system
+- Interactive map with custom pins
+- Listing cards with trust indicators
+- Sort options (nearest, price, rating)
+- Distance calculations
+- Favorites functionality
 
-- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS, shadcn/ui
-- **Backend**: Next.js API routes, Prisma ORM, PostgreSQL
-- **Authentication**: NextAuth.js (Credentials + Google OAuth)
-- **Payments**: Stripe (PaymentIntents + Connect Express)
-- **ID Verification**: Persona (webhook integration)
-- **File Uploads**: UploadThing + AWS S3
-- **Analytics**: PostHog
-- **Error Tracking**: Sentry
-- **Internationalization**: Custom i18n solution with RTL support
+### 📱 **Listing Detail**
+- Image gallery with carousel
+- Sticky booking panel
+- Date picker with availability
+- Price breakdown with insurance
+- Owner profile and verification
+- Safety summary
+- Customer reviews
+- Trust badges throughout
 
-## 📋 Prerequisites
+### 📊 **Dashboard**
+- Earnings and performance stats
+- Quick action buttons
+- Recent activity overview
+- Responsive design
 
-- Node.js 18+ and npm
-- PostgreSQL database
-- Stripe account
-- Persona account (for ID verification)
-- AWS S3 bucket (for file uploads)
-- PostHog account (for analytics)
-- Sentry account (for error tracking)
+## 🎨 Design System
+
+### **Color Palette**
+- **Emerald**: `#10B981` (Primary brand color)
+- **Sky**: `#38BDF8` (Accent color)
+- **Slate 900**: `#0F172A` (Text color)
+- **Fog**: `#F9FAFB` (Background)
+- **Mint**: `#A7F3D0` (Accent highlight)
+- **Amber**: `#FBBF24` (Warning/rating)
+- **Red**: `#EF4444` (Error/destructive)
+
+### **Typography**
+- **Font**: Plus Jakarta Sans (Google Fonts)
+- **Hierarchy**: 0.75rem to 3.75rem
+- **Weights**: 300-800
+- **Line heights**: 1.25 to 2.0
+
+### **Spacing & Layout**
+- **Base**: 8px scale
+- **Container**: max-w-[1200px]
+- **Grid**: 12-col desktop, 4-col mobile
+- **Gutters**: 24px desktop, 16px mobile
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Fonts**: Plus Jakarta Sans
+- **State Management**: React hooks
+- **Forms**: React Hook Form
+- **Authentication**: NextAuth.js
+- **Database**: Prisma + PostgreSQL
+- **Payments**: Stripe
+- **Maps**: Google Maps API
 
 ## 🚀 Quick Start
 
-1. **Clone and install dependencies**
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- PostgreSQL database
+
+### Installation
+
+1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd lendly
+   git clone https://github.com/CryptomSwap/Lendly.git
+   cd Lendly/lendly
+   ```
+
+2. **Install dependencies**
+   ```bash
    npm install
    ```
 
-2. **Set up environment variables**
+3. **Set up environment variables**
    ```bash
-   cp env.example .env
-   ```
-   
-   Fill in your environment variables:
-   ```env
-   DATABASE_URL="postgresql://username:password@localhost:5432/lendly"
-   NEXTAUTH_URL="http://localhost:3000"
-   NEXTAUTH_SECRET="your-secret-key"
-   GOOGLE_CLIENT_ID="your-google-client-id"
-   GOOGLE_CLIENT_SECRET="your-google-client-secret"
-   STRIPE_SECRET_KEY="sk_test_..."
-   STRIPE_PUBLISHABLE_KEY="pk_test_..."
-   STRIPE_CONNECT_CLIENT_ID="ca_..."
-   STRIPE_WEBHOOK_SECRET="whsec_..."
-   PERSONA_API_KEY="your-persona-api-key"
-   PERSONA_WEBHOOK_SECRET="your-persona-webhook-secret"
-   UPLOADTHING_TOKEN="your-uploadthing-token"
-   S3_REGION="us-east-1"
-   S3_BUCKET="your-s3-bucket"
-   S3_ACCESS_KEY_ID="your-s3-access-key"
-   S3_SECRET_ACCESS_KEY="your-s3-secret-key"
-   POSTHOG_KEY="your-posthog-key"
-   SENTRY_AUTH_TOKEN="your-sentry-token"
+   cp .env.example .env
+   # Fill in your environment variables
    ```
 
-3. **Set up the database**
+4. **Set up the database**
    ```bash
    npx prisma migrate dev
    npx prisma db seed
    ```
 
-4. **Start the development server**
+5. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. **Set up Stripe webhooks**
-   ```bash
-   stripe listen --forward-to localhost:3000/api/payments/webhook
-   ```
-   Copy the webhook secret and add it to your `.env` file.
+6. **Open your browser**
+   - **Main App**: http://localhost:3000
+   - **Hebrew (RTL)**: http://localhost:3000?lang=he
+   - **Component Test**: http://localhost:3000/test
+   - **Sandbox**: http://localhost:3000/sandbox
 
 ## 📁 Project Structure
 
 ```
-src/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes
-│   ├── items/[id]/        # Item detail page
-│   ├── browse/            # Browse/search page
-│   └── ...
-├── components/            # React components
-│   ├── ui/               # shadcn/ui components
-│   ├── home/             # Homepage components
-│   ├── browse/           # Browse page components
-│   ├── listing/          # Item detail components
-│   ├── safety/           # Safety & insurance components
-│   └── layout/           # Layout components
-├── lib/                  # Utility libraries
-│   ├── auth.ts          # NextAuth configuration
-│   ├── prisma.ts        # Prisma client
-│   ├── stripe.ts        # Stripe client
-│   ├── pricing.ts       # Pricing calculations
-│   ├── risk.ts          # Dynamic deposit model
-│   ├── geo.ts           # Geolocation utilities
-│   ├── i18n.ts          # Internationalization
-│   └── ...
-└── ...
+lendly/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── (marketing)/        # Marketing pages layout
+│   │   ├── (dash)/            # Dashboard pages layout
+│   │   ├── [country]/[city]/[category]/  # Dynamic results pages
+│   │   ├── items/[id]/        # Listing detail pages
+│   │   ├── browse/            # Browse page
+│   │   ├── sandbox/           # Component testing
+│   │   └── test/              # Interactive testing
+│   ├── components/            # React components
+│   │   ├── home/              # Homepage components
+│   │   ├── results/           # Results page components
+│   │   ├── listing/           # Listing detail components
+│   │   ├── browse/            # Browse page components
+│   │   ├── safety/            # Safety components
+│   │   └── ui/                # shadcn/ui components
+│   └── lib/                   # Utility functions
+│       ├── types.ts           # TypeScript types
+│       ├── mock.ts            # Mock data
+│       ├── currency.ts        # Currency formatting
+│       ├── geo.ts             # Geographic utilities
+│       ├── i18n.ts            # Internationalization
+│       └── ui.ts              # UI utilities
+├── prisma/                    # Database schema
+├── public/                    # Static assets
+└── docs/                      # Documentation
 ```
 
-## 🔧 Key Features Implementation
+## 🎯 Key Features
 
-### Dynamic Deposit Risk Model
+### **Trust-First Design**
+- Verification badges on every listing
+- Insurance coverage prominently displayed
+- Safety summaries with clear coverage details
+- Trust statistics throughout the experience
+- Deposit protection with explanations
 
-The deposit calculation considers multiple risk factors:
+### **Premium Interactions**
+- Hover effects: cards lift + shadow-lg (200ms)
+- Search bar focus: scale (1.01) + shadow-md (150ms)
+- Filter changes: fade/slide animations
+- Staggered entrance animations
+- Smooth transitions throughout
 
-- **Item Risk**: Fragility, theft appeal, age, telemetry
-- **Renter Risk**: ID verification status, rental history, account age
-- **Context Risk**: Rental duration, pickup method, location, timing
+### **Mobile Excellence**
+- 100% responsive design
+- Touch-optimized interactions
+- Mobile-friendly forms (48px height, pill radius)
+- Collapsible navigation
+- Gesture support
 
-```typescript
-// Example usage
-const riskInputs = {
-  itemValueILS: 4500,
-  category: 'CAMERA',
-  itemFragility: 0.3,
-  theftAppeal: 0.7,
-  itemAgeYears: 2,
-  hasTelemetry: false,
-  renter: {
-    idv: 'VERIFIED',
-    completed: 5,
-    disputes: 0,
-    accountDays: 365,
-    billingMatch: true
-  },
-  context: {
-    days: 3,
-    pickupMethod: 'IN_PERSON',
-    locationRisk: 0.3,
-    nightPickup: false
-  }
-}
+### **RTL Support**
+- `?lang=he` toggles `dir="rtl"` on html
+- Mirror paddings and directional properties
+- RTL-aware utility functions
+- Localized numbers and dates
 
-const quote = depositQuote(riskInputs)
-// Returns: { depositILS: 450, factors: {...}, explanation: [...] }
-```
+## 🔧 Development
 
-### Safety & Insurance UX
+### **Available Scripts**
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript checks
 
-- **Safety Summary**: Shows coverage, deductibles, and claim process
-- **Pickup Checklist**: 6 photos minimum, serial number, function test
-- **Return Checklist**: Condition assessment, damage reporting
-- **Insurance Toggle**: Optional coverage with transparent pricing
-
-### Payment Flow
-
-1. **Booking Creation**: Validates availability, calculates pricing
-2. **Stripe PaymentIntent**: Created for rental + fees + insurance
-3. **Deposit Hold**: Separate PaymentIntent for security deposit
-4. **Webhook Processing**: Confirms booking on payment success
-
-## 🌐 Internationalization
-
-Supports Hebrew (RTL) and English with automatic layout direction:
-
-```typescript
-// Set language via URL parameter
-// ?lang=he - Hebrew (RTL)
-// ?lang=en - English (LTR)
-
-import { t, isRTL } from '@/lib/i18n'
-
-const title = t('home.hero.title', 'he') // "שכור ציוד מאנשים מקומיים"
-const rtl = isRTL('he') // true
-```
-
-## 📊 Analytics & Monitoring
-
-### PostHog Events
-- `list_item_published`
-- `search_performed`
-- `checkout_started`
-- `idv_started`
-- `payment_succeeded`
-- `booking_confirmed`
-- `deposit_quote_returned`
-- `pickup_checklist_completed`
-- `return_checklist_completed`
-
-### Sentry Integration
-- Client-side error tracking
-- Server-side error monitoring
-- Performance monitoring
-
-## 🔒 Security Features
-
-- **ID Verification**: Persona integration with webhook verification
-- **Role-based Access**: NextAuth session management
-- **Input Validation**: Zod schemas for all API endpoints
-- **SQL Injection Protection**: Prisma ORM
-- **XSS Protection**: React's built-in protections
-- **CSRF Protection**: NextAuth built-in CSRF tokens
+### **Database Commands**
+- `npm run db:migrate` - Run database migrations
+- `npm run db:seed` - Seed the database
+- `npm run db:studio` - Open Prisma Studio
+- `npm run db:reset` - Reset the database
 
 ## 🧪 Testing
 
-```bash
-# Run linting
-npm run lint
+### **Component Testing**
+Visit `/test` to interactively test all components:
+- Buttons and form controls
+- Icons and badges
+- Currency formatting
+- Status indicators
 
-# Run type checking
-npm run type-check
+### **Sandbox**
+Visit `/sandbox` to see the design system:
+- Color palette
+- Typography hierarchy
+- Component examples
+- Interactive demos
 
-# Run tests (when implemented)
-npm run test
-```
+## 🌐 Internationalization
+
+### **RTL Support**
+- Add `?lang=he` to test Hebrew layout
+- Mirrored directional properties
+- RTL-aware spacing and icons
+- Localized numbers and dates
+
+### **Translation System**
+- Simple dictionary-based translations
+- Nested key support
+- Fallback to English
+- Date and number localization
+
+## 🛡️ Security & Trust
+
+### **Verification System**
+- Multi-level user verification
+- Equipment verification badges
+- Insurance status indicators
+- Background check integration
+
+### **Safety Features**
+- Comprehensive insurance coverage
+- Deposit protection system
+- Dispute resolution process
+- 24/7 customer support
+
+## 📱 Mobile Optimization
+
+### **Responsive Breakpoints**
+- Mobile: < 768px (4-col grid)
+- Tablet: 768px - 1024px
+- Desktop: > 1024px (12-col grid)
+
+### **Touch Interactions**
+- Minimum 44px touch targets
+- Swipe gestures for carousels
+- Pull-to-refresh support
+- Optimized form inputs
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+### **Production Build**
+```bash
+npm run build
+npm run start
+```
 
-### Other Platforms
-- **Railway**: Great for PostgreSQL + Node.js
-- **Render**: Good alternative with PostgreSQL support
-- **DigitalOcean**: App Platform with managed databases
+### **Environment Variables**
+- `DATABASE_URL` - PostgreSQL connection string
+- `NEXTAUTH_SECRET` - NextAuth.js secret
+- `NEXTAUTH_URL` - Application URL
+- `STRIPE_SECRET_KEY` - Stripe secret key
+- `STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
+- `GOOGLE_MAPS_API_KEY` - Google Maps API key
 
-## 📚 API Documentation
+## 📊 Performance
 
-### Key Endpoints
+### **Optimizations**
+- Lazy loading for images
+- Code splitting by route
+- Optimized bundle sizes
+- Fast loading times
 
-- `GET /api/items` - List items with filtering
-- `POST /api/items` - Create new item (authenticated)
-- `GET /api/items/[id]` - Get item details
-- `POST /api/bookings` - Create booking
-- `POST /api/risk/deposit` - Calculate deposit quote
-- `POST /api/payments/webhook` - Stripe webhook handler
-- `POST /api/verify/persona/webhook` - Persona webhook handler
-
-## 🔮 Future Enhancements
-
-### vNext Features
-- [ ] Real-time chat between owners and renters
-- [ ] Advanced map integration with clustering
-- [ ] Owner valuation catalog with depreciation bands
-- [ ] Insurance partner API integration
-- [ ] Admin panel for disputes and claims
-- [ ] Mobile app (React Native)
-- [ ] Advanced search with AI recommendations
-- [ ] Multi-language support expansion
-- [ ] Subscription plans for frequent renters
-- [ ] Equipment maintenance scheduling
-
-### Technical Improvements
-- [ ] Comprehensive test suite
-- [ ] Performance optimization
-- [ ] Advanced caching strategies
-- [ ] Real-time notifications
-- [ ] Advanced analytics dashboard
-- [ ] A/B testing framework
+### **User Experience**
+- Progressive enhancement
+- Graceful error handling
+- Loading states and skeletons
+- Offline capability basics
 
 ## 🤝 Contributing
 
@@ -280,19 +295,16 @@ npm run test
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-For support and questions:
-- Check the [FAQ](./docs/FAQ.md)
-- Review the [Safety Policy](./docs/Safety-Policy.md)
-- Contact support: support@lendly.com
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Built with [Next.js](https://nextjs.org/)
-- UI components from [shadcn/ui](https://ui.shadcn.com/)
-- Icons from [Lucide](https://lucide.dev/)
-- Payments by [Stripe](https://stripe.com/)
-- ID verification by [Persona](https://withpersona.com/)
+- [Next.js](https://nextjs.org/) for the amazing framework
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS
+- [shadcn/ui](https://ui.shadcn.com/) for the component library
+- [Lucide](https://lucide.dev/) for the beautiful icons
+- [Prisma](https://www.prisma.io/) for the database toolkit
+
+---
+
+**Built with ❤️ for the Lendly community**
