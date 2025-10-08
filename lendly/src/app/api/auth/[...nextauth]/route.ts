@@ -18,6 +18,8 @@ const authOptions: NextAuthOptions = {
       return token
     },
   },
+  // Add secret to prevent runtime errors
+  secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-for-development',
 }
 
 const handler = NextAuth(authOptions)

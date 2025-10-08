@@ -280,6 +280,7 @@ async function main() {
     await prisma.review.create({
       data: {
         bookingId: booking.id,
+        userId: booking.renterId, // The renter writes the review
         rating: Math.floor(Math.random() * 2) + 4, // 4 or 5 stars
         comment: 'Great equipment, excellent condition, and very professional owner. Highly recommend!',
       },

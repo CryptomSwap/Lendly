@@ -4,12 +4,14 @@ const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+  
+  // Turbopack configuration (moved from experimental.turbo)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },
@@ -96,6 +98,9 @@ const nextConfig: NextConfig = {
 
   // Output configuration
   output: 'standalone',
+  
+  // Fix workspace root detection
+  outputFileTracingRoot: __dirname,
   
   // Power by header
   poweredByHeader: false,
