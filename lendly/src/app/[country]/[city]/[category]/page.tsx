@@ -24,20 +24,21 @@ import { cx } from '@/lib/ui'
 import { Category, Filters } from '@/lib/types'
 
 interface ResultsPageProps {
-  params: {
+  params: Promise<{
     country: string
     city: string
     category: string
-  }
+  }>
 }
 
-export default function ResultsPage({ params }: ResultsPageProps) {
+export default async function ResultsPage({ params }: ResultsPageProps) {
+  const { country, city, category } = await params
   const searchParams = useSearchParams()
   const [viewMode, setViewMode] = useState<'list' | 'map' | 'split'>('split')
   const [showFilters, setShowFilters] = useState(false)
   const [filters, setFilters] = useState<Filters>({
-    category: params.category as Category,
-    city: params.city,
+    category: category as Category,
+    city: city,
     startDate: searchParams.get('start') || undefined,
     endDate: searchParams.get('end') || undefined,
     priceMin: searchParams.get('priceMin') ? parseInt(searchParams.get('priceMin')!) : undefined,
@@ -55,8 +56,8 @@ export default function ResultsPage({ params }: ResultsPageProps) {
 
   const clearAllFilters = () => {
     setFilters({
-      category: params.category as Category,
-      city: params.city
+      category: category as Category,
+      city: city
     })
   }
 
