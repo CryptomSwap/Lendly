@@ -1,6 +1,6 @@
 # 🚀 Lendly - Premium Equipment Rental Marketplace
 
-A premium, trust-first marketplace for equipment rentals built with Next.js 14, TypeScript, and Tailwind CSS.
+A premium, trust-first marketplace for equipment rentals built with Next.js 15.5.4, React 19.1.0, TypeScript, and Tailwind CSS.
 
 ## ✨ Features
 
@@ -66,9 +66,10 @@ A premium, trust-first marketplace for equipment rentals built with Next.js 14, 
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **Framework**: Next.js 15.5.4 (App Router)
+- **Runtime**: React 19.1.0
+- **Language**: TypeScript 5.x
+- **Styling**: Tailwind CSS 4.x
 - **Components**: shadcn/ui
 - **Icons**: Lucide React
 - **Fonts**: Plus Jakarta Sans
@@ -82,7 +83,7 @@ A premium, trust-first marketplace for equipment rentals built with Next.js 14, 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+ (recommended: Node.js 20+)
 - npm or yarn
 - PostgreSQL database
 
