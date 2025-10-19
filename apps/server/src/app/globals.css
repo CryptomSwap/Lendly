@@ -1,0 +1,165 @@
+/* Global styles for Lendly Israel */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  direction: rtl;
+  text-align: right;
+  line-height: 1.6;
+  color: #333;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  min-height: 100vh;
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-bottom: 3px solid #0ea5e9;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+h2 {
+  color: #334155;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+li {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-right: 4px solid #0ea5e9;
+  transition: all 0.3s ease;
+}
+
+li:hover {
+  background: #e2e8f0;
+  transform: translateX(-5px);
+}
+
+a {
+  color: #0ea5e9;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+.status {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #166534;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-right: 4px solid #22c55e;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.status strong {
+  font-weight: 700;
+}
+
+/* Hebrew text styling */
+.hebrew {
+  font-family: 'Segoe UI', 'Arial Hebrew', 'David', sans-serif;
+  font-size: 1.1rem;
+}
+
+/* Equipment list styling */
+.equipment-item {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-right: 4px solid #0ea5e9;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.equipment-item:hover {
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  transform: translateX(-3px);
+}
+
+.price {
+  color: #059669;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Feature list styling */
+.feature-list li {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-right: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.feature-list li:hover {
+  background: linear-gradient(135deg, #fde68a, #fcd34d);
+}
+
+/* API endpoint styling */
+.api-endpoint {
+  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  border-right: 4px solid #8b5cf6;
+  color: #5b21b6;
+}
+
+.api-endpoint:hover {
+  background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  li {
+    padding: 0.8rem;
+  }
+}
