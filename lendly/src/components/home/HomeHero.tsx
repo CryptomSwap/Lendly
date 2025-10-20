@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { cx } from '@/lib/ui'
 import { trustStats } from '@/lib/mock'
+import { t, getCurrentLanguage } from '@/lib/i18n'
 
 export function HomeHero() {
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null)
@@ -24,6 +25,7 @@ export function HomeHero() {
     setUserLocation({ lat: 32.0853, lng: 34.7818 })
   }, [])
 
+  const lang = getCurrentLanguage()
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-fog via-white to-mint/10">
       {/* Background Pattern */}
@@ -41,19 +43,18 @@ export function HomeHero() {
           <div className="mb-8">
             <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200 transition-colors">
               <TrendingUp className="w-3 h-3 mr-1" />
-              {trustStats.totalBookings.toLocaleString()}+ successful rentals
+              {trustStats.totalBookings.toLocaleString()} {t('marketing.hero.successfulRentalsSuffix', lang)}
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-              Rent anything near you —
+              {t('marketing.hero.titleLine1', lang)}
               <span className="block bg-gradient-to-r from-emerald to-sky bg-clip-text text-transparent">
-                insured & verified
+                {t('marketing.hero.titleLine2', lang)}
               </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-8">
-              Discover premium equipment from verified owners in your area. 
-              <span className="font-medium text-slate-700"> Everything insured, every rental protected.</span>
+              {t('marketing.hero.subtitle', lang)}
             </p>
           </div>
 
@@ -61,15 +62,15 @@ export function HomeHero() {
           <div className="flex flex-wrap items-center justify-center gap-6 mb-12 text-sm">
             <div className="flex items-center gap-2 text-emerald-600">
               <Shield className="w-4 h-4" />
-              <span className="font-medium">{trustStats.verifiedUsers.toLocaleString()}+ verified users</span>
+              <span className="font-medium">{trustStats.verifiedUsers.toLocaleString()}+ {t('marketing.hero.verifiedUsersLabel', lang)}</span>
             </div>
             <div className="flex items-center gap-2 text-sky-600">
               <Star className="w-4 h-4" />
-              <span className="font-medium">{trustStats.averageRating}/5 average rating</span>
+              <span className="font-medium">{trustStats.averageRating}/5 {t('marketing.hero.averageRatingLabel', lang)}</span>
             </div>
             <div className="flex items-center gap-2 text-emerald-600">
               <Clock className="w-4 h-4" />
-              <span className="font-medium">{trustStats.responseTime} response time</span>
+              <span className="font-medium">{trustStats.responseTime} {t('marketing.hero.responseTimeLabel', lang)}</span>
             </div>
           </div>
         </div>
@@ -92,14 +93,14 @@ export function HomeHero() {
             onClick={() => router.push('/browse')}
             className="w-full sm:w-auto"
           >
-            Browse categories
+            {t('marketing.hero.browseCta', lang)}
           </Button>
           <Button 
             size="lg"
             onClick={() => router.push('/list')}
             className="w-full sm:w-auto"
           >
-            List your gear
+            {t('marketing.hero.listCta', lang)}
           </Button>
         </div>
       </div>

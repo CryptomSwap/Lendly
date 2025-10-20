@@ -10,26 +10,28 @@ import {
   Linkedin
 } from 'lucide-react'
 import { cx } from '@/lib/ui'
+import { t, getCurrentLanguage } from '@/lib/i18n'
 
 export function Footer() {
+  const lang = getCurrentLanguage()
   const footerLinks = {
     company: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Press', href: '/press' },
-      { name: 'Blog', href: '/blog' }
+      { name: t('footer.company.about', lang), href: '/about' },
+      { name: t('footer.company.careers', lang), href: '/careers' },
+      { name: t('footer.company.press', lang), href: '/press' },
+      { name: t('footer.company.blog', lang), href: '/blog' }
     ],
     support: [
-      { name: 'Help Center', href: '/help' },
-      { name: 'Safety', href: '/safety' },
-      { name: 'Community Guidelines', href: '/guidelines' },
-      { name: 'Contact Us', href: '/contact' }
+      { name: t('footer.support.helpCenter', lang), href: '/help' },
+      { name: t('footer.support.safety', lang), href: '/safety' },
+      { name: t('footer.support.community', lang), href: '/guidelines' },
+      { name: t('footer.support.contact', lang), href: '/contact' }
     ],
     legal: [
-      { name: 'Terms of Service', href: '/terms' },
-      { name: 'Privacy Policy', href: '/privacy' },
-      { name: 'Cookie Policy', href: '/cookies' },
-      { name: 'Insurance', href: '/insurance' }
+      { name: t('footer.legal.terms', lang), href: '/terms' },
+      { name: t('footer.legal.privacy', lang), href: '/privacy' },
+      { name: t('footer.legal.cookies', lang), href: '/cookies' },
+      { name: t('footer.legal.insurance', lang), href: '/insurance' }
     ]
   }
 
@@ -53,13 +55,12 @@ export function Footer() {
                   <span className="text-white font-bold text-xl">L</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl font-bold text-white">Lendly</span>
-                  <span className="text-xs text-slate-400 -mt-1">Trusted Rentals</span>
+                  <span className="text-xl font-bold text-white">{t('brand.name', lang)}</span>
+                  <span className="text-xs text-slate-400 -mt-1">{t('brand.tagline', lang)}</span>
                 </div>
               </div>
               <p className="text-slate-400 mb-6 leading-relaxed">
-                The trusted marketplace for equipment rentals. Connect with verified owners 
-                and rent premium equipment with confidence.
+                {t('marketing.hero.subtitle', lang)}
               </p>
               
               {/* Contact Info */}
@@ -81,7 +82,7 @@ export function Footer() {
 
             {/* Company Links */}
             <div>
-              <h3 className="font-semibold text-white mb-6">Company</h3>
+              <h3 className="font-semibold text-white mb-6">{t('footer.headings.company', lang)}</h3>
               <ul className="space-y-3">
                 {footerLinks.company.map((link) => (
                   <li key={link.name}>
@@ -98,7 +99,7 @@ export function Footer() {
 
             {/* Support Links */}
             <div>
-              <h3 className="font-semibold text-white mb-6">Support</h3>
+              <h3 className="font-semibold text-white mb-6">{t('footer.headings.support', lang)}</h3>
               <ul className="space-y-3">
                 {footerLinks.support.map((link) => (
                   <li key={link.name}>
@@ -115,7 +116,7 @@ export function Footer() {
 
             {/* Legal Links */}
             <div>
-              <h3 className="font-semibold text-white mb-6">Legal</h3>
+              <h3 className="font-semibold text-white mb-6">{t('footer.headings.legal', lang)}</h3>
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>
@@ -137,17 +138,17 @@ export function Footer() {
           <div className="flex items-center justify-center gap-6 mb-6">
             <div className="flex items-center gap-2 text-emerald-400">
               <Shield className="w-5 h-5" />
-              <span className="font-medium">Verified & Insured</span>
+              <span className="font-medium">{t('footer.trustBadges.verifiedInsured', lang)}</span>
             </div>
             <div className="w-px h-6 bg-slate-700"></div>
             <div className="flex items-center gap-2 text-sky-400">
               <Shield className="w-5 h-5" />
-              <span className="font-medium">24/7 Support</span>
+              <span className="font-medium">{t('footer.trustBadges.support247', lang)}</span>
             </div>
             <div className="w-px h-6 bg-slate-700"></div>
             <div className="flex items-center gap-2 text-emerald-400">
               <Shield className="w-5 h-5" />
-              <span className="font-medium">Secure Payments</span>
+              <span className="font-medium">{t('footer.trustBadges.securePayments', lang)}</span>
             </div>
           </div>
         </div>
@@ -156,7 +157,7 @@ export function Footer() {
         <div className="py-8 border-t border-slate-800">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-slate-400 text-sm">
-              © 2024 Lendly. All rights reserved.
+              {t('footer.copyright', lang)}
             </div>
             
             {/* Social Links */}

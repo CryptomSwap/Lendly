@@ -1,13 +1,16 @@
+"use client"
 import { Shield, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cx } from '@/lib/ui'
+import { t, getCurrentLanguage } from '@/lib/i18n'
 
 export function SafetyBlock() {
+  const lang = getCurrentLanguage()
   const safetyFeatures = [
-    'ID verification',
-    'Deposit hold (only captured if needed)',
-    'Per-rental insurance',
-    'Dispute resolution <72h'
+    t('trust.idVerification', lang),
+    t('trust.depositHold', lang),
+    t('trust.perRentalInsurance', lang),
+    t('trust.disputeResolution', lang)
   ]
 
   return (
@@ -21,18 +24,18 @@ export function SafetyBlock() {
                 <Shield className="w-6 h-6 text-emerald-600" />
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
-                Safety, built in.
+                {t('trust.safetyBuiltIn', lang)}
               </h2>
             </div>
             <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-              We've built comprehensive protection into every rental to give you peace of mind.
+              {t('marketing.hero.subtitle', lang)}
             </p>
             <Button 
               size="lg" 
               className="bg-emerald-600 hover:bg-emerald-700 text-white"
               onClick={() => window.location.href = '/safety'}
             >
-              How protection works
+              {t('marketing.protectionCta', lang)}
             </Button>
           </div>
 

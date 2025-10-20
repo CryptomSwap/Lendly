@@ -16,13 +16,15 @@ import {
   Search
 } from 'lucide-react'
 import { cx } from '@/lib/ui'
-import { isRTL } from '@/lib/i18n'
+import { isRTL, t, getCurrentLanguage } from '@/lib/i18n'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { data: session, status } = useSession()
   const rtl = isRTL()
+  const lang = getCurrentLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,8 +49,8 @@ export function Navbar() {
               <span className="text-white font-bold text-xl">L</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-slate-900">Lendly</span>
-              <span className="text-xs text-slate-500 -mt-1">Trusted Rentals</span>
+              <span className="text-xl font-bold text-slate-900">{t('brand.name', lang)}</span>
+              <span className="text-xs text-slate-500 -mt-1">{t('brand.tagline', lang)}</span>
             </div>
           </Link>
 
@@ -58,17 +60,18 @@ export function Navbar() {
               href="/browse" 
               className="text-slate-700 hover:text-emerald transition-colors font-medium relative group"
             >
-              Browse
+              {t('common.browse', lang)}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link 
               href="/list" 
               className="text-slate-700 hover:text-emerald transition-colors font-medium relative group"
             >
-              List Item
+              {t('navigation.listItem', lang)}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald transition-all duration-300 group-hover:w-full"></span>
             </Link>
             
+            <LanguageSwitcher />
             {status === 'loading' ? (
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse"></div>
@@ -77,7 +80,7 @@ export function Navbar() {
               <div className="flex items-center space-x-4">
                 <Link href="/dashboard">
                   <Button variant="ghost" size="sm" className="text-slate-700 hover:text-emerald hover:bg-emerald-50">
-                    Dashboard
+                    {t('navigation.dashboard', lang)}
                   </Button>
                 </Link>
                 
@@ -116,14 +119,14 @@ export function Navbar() {
                   onClick={() => signIn()}
                   className="text-slate-700 hover:text-emerald hover:bg-emerald-50"
                 >
-                  Sign In
+                  {t('common.signIn', lang)}
                 </Button>
                 <Button 
                   onClick={() => signIn()}
                   className="bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Sign Up
+                  {t('common.signUp', lang)}
                 </Button>
               </div>
             )}
@@ -151,14 +154,14 @@ export function Navbar() {
                 className="text-slate-700 hover:text-emerald transition-colors font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Browse Equipment
+                {t('navigation.browse', lang)}
               </Link>
               <Link
                 href="/list"
                 className="text-slate-700 hover:text-emerald transition-colors font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                List Your Item
+                {t('navigation.listItem', lang)}
               </Link>
               
               {status === 'loading' ? (
@@ -172,7 +175,7 @@ export function Navbar() {
                     className="text-slate-700 hover:text-emerald transition-colors font-medium py-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Dashboard
+                    {t('navigation.dashboard', lang)}
                   </Link>
                   <div className="flex items-center gap-4 py-2">
                     <Button variant="ghost" size="sm" className="text-slate-600">
@@ -191,7 +194,7 @@ export function Navbar() {
                     className="justify-start text-slate-700 hover:text-red-600 hover:bg-red-50"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
+                    {t('common.signOut', lang)}
                   </Button>
                 </>
               ) : (
@@ -201,14 +204,14 @@ export function Navbar() {
                     onClick={() => signIn()}
                     className="justify-start text-slate-700 hover:text-emerald"
                   >
-                    Sign In
+                    {t('common.signIn', lang)}
                   </Button>
                   <Button 
                     onClick={() => signIn()}
                     className="bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    Sign Up
+                    {t('common.signUp', lang)}
                   </Button>
                 </div>
               )}

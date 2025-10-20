@@ -17,14 +17,19 @@ import {
 import { cx } from '@/lib/ui'
 
 interface SortMenuProps {
-  value: string
-  onChange: (value: string) => void
+  value: 'nearest' | 'price-asc' | 'price-desc' | 'rating'
+  onChange: (value: 'nearest' | 'price-asc' | 'price-desc' | 'rating') => void
 }
 
 export function SortMenu({ value, onChange }: SortMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const sortOptions = [
+  const sortOptions: Array<{
+    value: 'nearest' | 'price-asc' | 'price-desc' | 'rating'
+    label: string
+    icon: any
+    description: string
+  }> = [
     {
       value: 'nearest',
       label: 'Nearest',

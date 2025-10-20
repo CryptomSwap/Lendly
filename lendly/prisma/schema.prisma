@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 enum Role {
@@ -86,7 +86,7 @@ model Item {
   latitude      Float
   longitude     Float
   city          String
-  images        String[]
+  images        Json
   specs         Json?
   isActive      Boolean       @default(true)
   createdAt     DateTime      @default(now())

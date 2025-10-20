@@ -18,15 +18,10 @@ import {
 import { formatILS } from '@/lib/currency'
 import { haversineDistance, TEL_AVIV_COORDS } from '@/lib/geo'
 import { mockListings } from '@/lib/mock-data'
+import { Filters } from '@/lib/types'
 
 interface ListingGridProps {
-  filters: {
-    category: string
-    location: string
-    dates: string
-    priceRange: [number, number]
-    radius: number
-  }
+  filters: Filters
   sortBy: string
 }
 
@@ -44,8 +39,9 @@ export function ListingGrid({ filters, sortBy }: ListingGridProps) {
   // Filter listings
   const filteredListings = listings.filter(listing => {
     if (filters.category && listing.category !== filters.category) return false
-    if (filters.location && !listing.location.city.toLowerCase().includes(filters.location.toLowerCase())) return false
-    if (listing.dailyPriceILS < filters.priceRange[0] || listing.dailyPriceILS > filters.priceRange[1]) return false
+    if (filters.city && !listing.location.city.toLowerCase().includes(filters.city.toLowerCase())) return false
+    if (filters.priceMin && listing.dailyPriceILS < filters.priceMin) return false
+    if (filters.priceMax && listing.dailyPriceILS > filters.priceMax) return false
     return true
   })
 

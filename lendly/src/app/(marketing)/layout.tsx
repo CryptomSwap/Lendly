@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/home/Navbar'
 import { Footer } from '@/components/home/Footer'
+import { Providers } from '@/app/providers'
 
 export default function MarketingLayout({
   children,
@@ -7,10 +8,12 @@ export default function MarketingLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-fog">
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
-    </div>
+    <Providers>
+      <div className="min-h-screen bg-fog">
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+      </div>
+    </Providers>
   )
 }

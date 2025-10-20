@@ -265,7 +265,7 @@ export default function ItemDetailPage() {
                 <StickyBookingCard
                   item={item}
                   selectedDates={selectedDates}
-                  depositQuote={depositQuote}
+                  depositQuote={depositQuote || undefined}
                 />
               </div>
             </div>
