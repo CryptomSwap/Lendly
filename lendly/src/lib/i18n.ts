@@ -1,6 +1,6 @@
 // Internationalization utilities for Lendly
 
-export type Language = 'en' | 'he'
+export type Language = 'en' | 'he' | 'ar'
 
 export interface Translations {
   [key: string]: string | Translations
@@ -9,6 +9,60 @@ export interface Translations {
 // Simple translation dictionary
 const translations: Record<Language, Translations> = {
   en: {
+    brand: {
+      name: 'Lendly',
+      tagline: 'Trusted Rentals'
+    },
+    footer: {
+      headings: {
+        company: 'Company',
+        support: 'Support',
+        legal: 'Legal'
+      },
+      company: {
+        about: 'About Us',
+        careers: 'Careers',
+        press: 'Press',
+        blog: 'Blog'
+      },
+      support: {
+        helpCenter: 'Help Center',
+        safety: 'Safety',
+        community: 'Community Guidelines',
+        contact: 'Contact Us'
+      },
+      legal: {
+        terms: 'Terms of Service',
+        privacy: 'Privacy Policy',
+        cookies: 'Cookie Policy',
+        insurance: 'Insurance'
+      },
+      trustBadges: {
+        verifiedInsured: 'Verified & Insured',
+        support247: '24/7 Support',
+        securePayments: 'Secure Payments'
+      },
+      copyright: '© 2024 Lendly. All rights reserved.',
+      contact: {
+        email: 'support@lendly.com',
+        phone: '+1 (555) 123-4567',
+        location: 'Tel Aviv, Israel'
+      }
+    },
+    marketing: {
+      hero: {
+        titleLine1: 'Rent anything near you —',
+        titleLine2: 'insured & verified',
+        subtitle: 'Discover premium equipment from verified owners in your area. Everything insured, every rental protected.',
+        successfulRentalsSuffix: '+ successful rentals',
+        browseCta: 'Browse categories',
+        listCta: 'List your gear',
+        verifiedUsersLabel: 'verified users',
+        averageRatingLabel: 'average rating',
+        responseTimeLabel: 'response time'
+      },
+      protectionCta: 'How protection works'
+    },
     common: {
       search: 'Search',
       browse: 'Browse',
@@ -108,6 +162,60 @@ const translations: Record<Language, Translations> = {
     }
   },
   he: {
+    brand: {
+      name: 'Lendly',
+      tagline: 'השכרות באמון'
+    },
+    footer: {
+      headings: {
+        company: 'חברה',
+        support: 'תמיכה',
+        legal: 'משפטי'
+      },
+      company: {
+        about: 'עלינו',
+        careers: 'קריירה',
+        press: 'עיתונות',
+        blog: 'בלוג'
+      },
+      support: {
+        helpCenter: 'מרכז העזרה',
+        safety: 'בטיחות',
+        community: 'כללי קהילה',
+        contact: 'צור קשר'
+      },
+      legal: {
+        terms: 'תנאי שירות',
+        privacy: 'מדיניות פרטיות',
+        cookies: 'מדיניות קוקיז',
+        insurance: 'ביטוח'
+      },
+      trustBadges: {
+        verifiedInsured: 'מאומת ומבוטח',
+        support247: 'תמיכה 24/7',
+        securePayments: 'תשלומים מאובטחים'
+      },
+      copyright: '© 2024 Lendly. כל הזכויות שמורות.',
+      contact: {
+        email: 'support@lendly.com',
+        phone: '+972 (0)55-123-4567',
+        location: 'תל אביב, ישראל'
+      }
+    },
+    marketing: {
+      hero: {
+        titleLine1: 'השכירו כל דבר לידכם —',
+        titleLine2: 'מבוטח ומאומת',
+        subtitle: 'גלו ציוד איכותי מבעלים מאומתים באזור שלכם. הכל מבוטח, כל השכרה מוגנת.',
+        successfulRentalsSuffix: '+ השכרות מוצלחות',
+        browseCta: 'עיינו בקטגוריות',
+        listCta: 'פרסמו את הציוד שלכם',
+        verifiedUsersLabel: 'משתמשים מאומתים',
+        averageRatingLabel: 'דירוג ממוצע',
+        responseTimeLabel: 'זמן תגובה'
+      },
+      protectionCta: 'איך ההגנה עובדת'
+    },
     common: {
       search: 'חיפוש',
       browse: 'עיון',
@@ -206,6 +314,160 @@ const translations: Record<Language, Translations> = {
       disputeResolution: 'פתרון מחלוקות תוך 72 שעות'
     }
   }
+  ,
+  ar: {
+    brand: {
+      name: 'Lendly',
+      tagline: 'تأجير موثوق'
+    },
+    footer: {
+      headings: {
+        company: 'الشركة',
+        support: 'الدعم',
+        legal: 'قانوني'
+      },
+      company: {
+        about: 'معلومات عنا',
+        careers: 'وظائف',
+        press: 'إعلام',
+        blog: 'مدونة'
+      },
+      support: {
+        helpCenter: 'مركز المساعدة',
+        safety: 'السلامة',
+        community: 'إرشادات المجتمع',
+        contact: 'اتصل بنا'
+      },
+      legal: {
+        terms: 'شروط الخدمة',
+        privacy: 'سياسة الخصوصية',
+        cookies: 'سياسة ملفات تعريف الارتباط',
+        insurance: 'التأمين'
+      },
+      trustBadges: {
+        verifiedInsured: 'موثّق ومؤمّن',
+        support247: 'دعم 24/7',
+        securePayments: 'مدفوعات آمنة'
+      },
+      copyright: '© 2024 Lendly. جميع الحقوق محفوظة.',
+      contact: {
+        email: 'support@lendly.com',
+        phone: '+1 (555) 123-4567',
+        location: 'تل أبيب، إسرائيل'
+      }
+    },
+    common: {
+      search: 'بحث',
+      browse: 'تصفح',
+      list: 'قائمة',
+      dashboard: 'لوحة التحكم',
+      signIn: 'تسجيل الدخول',
+      signUp: 'إنشاء حساب',
+      signOut: 'تسجيل الخروج',
+      cancel: 'إلغاء',
+      confirm: 'تأكيد',
+      save: 'حفظ',
+      edit: 'تعديل',
+      delete: 'حذف',
+      loading: 'جارٍ التحميل...',
+      error: 'خطأ',
+      success: 'تم بنجاح',
+      close: 'إغلاق',
+      back: 'رجوع',
+      next: 'التالي',
+      previous: 'السابق',
+      view: 'عرض',
+      share: 'مشاركة',
+      favorite: 'مفضلة',
+      report: 'إبلاغ'
+    },
+    navigation: {
+      home: 'الرئيسية',
+      browse: 'تصفح المعدات',
+      listItem: 'انشر عنصرًا',
+      dashboard: 'لوحة التحكم',
+      profile: 'الملف الشخصي',
+      settings: 'الإعدادات',
+      help: 'مساعدة'
+    },
+    search: {
+      placeholder: 'عمّ تبحث؟',
+      location: 'الموقع',
+      dates: 'التواريخ',
+      category: 'الفئة',
+      price: 'السعر',
+      radius: 'نطاق البحث',
+      filters: 'مرشحات',
+      sortBy: 'ترتيب حسب',
+      nearest: 'الأقرب',
+      priceAsc: 'السعر: من الأقل إلى الأعلى',
+      priceDesc: 'السعر: من الأعلى إلى الأقل',
+      rating: 'التقييم',
+      available: 'متوفر فقط',
+      verified: 'المستخدمون الموثقون فقط',
+      insured: 'العناصر المؤمنة فقط'
+    },
+    categories: {
+      cameras: 'كاميرات',
+      drones: 'طائرات بدون طيار',
+      construction: 'إنشاءات',
+      gardening: 'بستنة',
+      'event-equipment': 'معدات الفعاليات',
+      'power-tools': 'أدوات كهربائية',
+      camping: 'تخييم',
+      'audio-pa': 'صوت/PA'
+    },
+    item: {
+      pricePerDay: 'في اليوم',
+      deposit: 'تأمين',
+      rating: 'تقييم',
+      reviews: 'مراجعات',
+      verified: 'موثق',
+      insured: 'مؤمن',
+      instantBook: 'حجز فوري',
+      available: 'متاح',
+      unavailable: 'غير متاح',
+      bookNow: 'احجز الآن',
+      contactOwner: 'تواصل مع المالك',
+      viewDetails: 'عرض التفاصيل'
+    },
+    booking: {
+      selectDates: 'اختر التواريخ',
+      total: 'الإجمالي',
+      subtotal: 'المجموع الفرعي',
+      insurance: 'تأمين',
+      platformFee: 'رسوم المنصة',
+      deposit: 'تأمين',
+      bookNow: 'احجز الآن',
+      bookingConfirmation: 'تأكيد الحجز',
+      bookingSuccess: 'تم الحجز بنجاح!'
+    },
+    marketing: {
+      hero: {
+        titleLine1: 'استأجر أي شيء بالقرب منك —',
+        titleLine2: 'مؤمّن وموثق',
+        subtitle: 'اكتشف معدات عالية الجودة من مالكين موثقين في منطقتك. كل شيء مؤمّن، وكل عملية إيجار محمية.',
+        successfulRentalsSuffix: '+ عمليات إيجار ناجحة',
+        browseCta: 'تصفح الفئات',
+        listCta: 'انشر معداتك',
+        verifiedUsersLabel: 'مستخدمون موثقون',
+        averageRatingLabel: 'تقييم متوسط',
+        responseTimeLabel: 'وقت الاستجابة'
+      },
+      protectionCta: 'كيف تعمل الحماية'
+    },
+    trust: {
+      verifiedUsers: 'مستخدمون موثقون',
+      fullyInsured: 'مؤمن بالكامل',
+      instantBooking: 'حجز فوري',
+      localCommunity: 'مجتمع محلي',
+      safetyBuiltIn: 'السلامة مدمجة',
+      idVerification: 'توثيق الهوية',
+      depositHold: 'حجز التأمين (يُسحب عند الحاجة فقط)',
+      perRentalInsurance: 'تأمين لكل عملية إيجار',
+      disputeResolution: 'حل النزاعات خلال 72 ساعة'
+    }
+  }
 }
 
 /**
@@ -218,8 +480,7 @@ export function isRTL(lang?: string): boolean {
   
   const urlLang = new URLSearchParams(window.location.search).get('lang')
   const currentLang = lang || urlLang || 'en'
-  
-  return currentLang === 'he'
+  return currentLang === 'he' || currentLang === 'ar'
 }
 
 /**
@@ -230,7 +491,9 @@ export function getCurrentLanguage(): Language {
   if (typeof window === 'undefined') return 'en'
   
   const urlLang = new URLSearchParams(window.location.search).get('lang')
-  return (urlLang === 'he' ? 'he' : 'en') as Language
+  if (urlLang === 'he') return 'he'
+  if (urlLang === 'ar') return 'ar'
+  return 'en'
 }
 
 /**

@@ -15,15 +15,10 @@ import {
 } from 'lucide-react'
 import { mockListings } from '@/lib/mock-data'
 import { haversineDistance, TEL_AVIV_COORDS } from '@/lib/geo'
+import { Filters } from '@/lib/types'
 
 interface MapWithClustersProps {
-  filters: {
-    category: string
-    location: string
-    dates: string
-    priceRange: [number, number]
-    radius: number
-  }
+  filters: Filters
   sortBy: string
 }
 
@@ -36,8 +31,9 @@ export function MapWithClusters({ filters, sortBy }: MapWithClustersProps) {
   // Filter listings based on current filters
   const filteredListings = mockListings.filter(listing => {
     if (filters.category && listing.category !== filters.category) return false
-    if (filters.location && !listing.location.city.toLowerCase().includes(filters.location.toLowerCase())) return false
-    if (listing.dailyPriceILS < filters.priceRange[0] || listing.dailyPriceILS > filters.priceRange[1]) return false
+    if (filters.city && !listing.location.city.toLowerCase().includes(filters.city.toLowerCase())) return false
+    if (filters.priceMin && listing.dailyPriceILS < filters.priceMin) return false
+    if (filters.priceMax && listing.dailyPriceILS > filters.priceMax) return false
     return true
   })
 
@@ -196,7 +192,7 @@ export function MapWithClusters({ filters, sortBy }: MapWithClustersProps) {
               </span>
             </div>
             <p className="text-xs text-neutral-600 mt-1">
-              {filters.location || 'Tel Aviv area'}
+              {filters.city || 'Tel Aviv area'}
             </p>
           </div>
         </div>

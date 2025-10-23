@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  RENTER
+  OWNER
+  ADMIN
+}
+
+enum ItemCategory {
+  DRONE
+  CAMERA
+  POWER_TOOL
+  EVENTS
+  OTHER
+}
+
+enum BookingStatus {
+  RESERVED
+  CONFIRMED
+  PICKED_UP
+  RETURNED
+  CANCELLED
+  EXPIRED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+enum PickupMethod {
+  SELF_PICKUP
+  COURIER
+  LOCKER
+}
+
+enum CategoryRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  phone     String?
+  password  String
+  role      UserRole @default(RENTER)
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  ownedItems     Item[]
+  bookings       Booking[]
+  categoryRequests CategoryRequest[]
+
+  @@map("users")
+}
+
+model Item {
+  id            String       @id @default(cuid())
+  title         String
+  description   String
+  category      ItemCategory
+  dailyPriceILS Int
+  ownerId       String
+  city          String
+  latitude      Float
+  longitude     Float
+  images        String[]     @default([])
+  specs         Json         @default("{}")
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relations
+  owner         User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  bookings      Booking[]
+  availability  Availability[]
+
+  @@map("items")
+}
+
+model Availability {
+  id          String   @id @default(cuid())
+  itemId      String
+  startDate   DateTime
+  endDate     DateTime
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("availability")
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  itemId          String
+  renterId        String
+  startDate       DateTime
+  endDate         DateTime
+  totalPriceILS   Int
+  depositILS      Int
+  status          BookingStatus  @default(RESERVED)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  expiresAt       DateTime?
+  pickupMethod    PickupMethod  @default(SELF_PICKUP)
+  insuranceEnabled Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  item   Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  renter User @relation(fields: [renterId], references: [id], onDelete: Cascade)
+
+  @@map("bookings")
+}
+
+model CategoryRequest {
+  id          String                @id @default(cuid())
+  name        String
+  description String
+  requesterId String
+  status      CategoryRequestStatus  @default(PENDING)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  // Relations
+  requester User @relation(fields: [requesterId], references: [id], onDelete: Cascade)
+
+  @@map("category_requests")
+}
+
+model SafetyReport {
+  id          String   @id @default(cuid())
+  bookingId   String
+  reporterId  String
+  type        String   // "DAMAGE", "THEFT", "LATE_RETURN", etc.
+  description String
+  images      String[] @default([])
+  status      String   @default("PENDING") // "PENDING", "RESOLVED", "DISPUTED"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("safety_reports")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}

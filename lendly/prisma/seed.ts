@@ -64,7 +64,7 @@ async function main() {
   const items: Array<{
     title: string
     description: string
-    category: string
+    category: 'CAMERA' | 'GARDENING' | 'AUDIO_PA' | 'POWER_TOOL' | 'DRONE'
     dailyPriceILS: number
     depositILS: number
     latitude: number
@@ -78,7 +78,7 @@ async function main() {
     {
       title: 'Professional Camera Kit',
       description: 'Complete professional photography kit including Canon EOS R5, 24-70mm f/2.8 lens, tripod, and accessories. Perfect for events, portraits, and commercial work.',
-      category: 'CAMERA',
+      category: 'CAMERA' as const,
       dailyPriceILS: 150,
       depositILS: 500,
       latitude: 32.0853,
@@ -104,7 +104,7 @@ async function main() {
     {
       title: 'Garden Tools Set',
       description: 'Complete set of professional gardening tools including hedge trimmer, leaf blower, and various hand tools. Perfect for landscaping projects.',
-      category: 'GARDENING',
+      category: 'GARDENING' as const,
       dailyPriceILS: 50,
       depositILS: 200,
       latitude: 32.0753,
@@ -128,7 +128,7 @@ async function main() {
     {
       title: 'DJ Equipment Package',
       description: 'Professional DJ setup with Pioneer CDJ-3000, DJM-900NXS2 mixer, and high-quality speakers. Perfect for events and parties.',
-      category: 'AUDIO_PA',
+      category: 'AUDIO_PA' as const,
       dailyPriceILS: 200,
       depositILS: 800,
       latitude: 32.0953,
@@ -153,7 +153,7 @@ async function main() {
     {
       title: 'Power Drill Set',
       description: 'Professional cordless drill set with multiple bits and accessories. Ideal for construction and DIY projects.',
-      category: 'POWER_TOOL',
+      category: 'POWER_TOOL' as const,
       dailyPriceILS: 75,
       depositILS: 300,
       latitude: 32.0653,
@@ -177,7 +177,7 @@ async function main() {
     {
       title: 'Professional Drone',
       description: 'DJI Mavic 3 Pro with 4K camera and multiple batteries. Perfect for aerial photography and videography.',
-      category: 'DRONE',
+      category: 'DRONE' as const,
       dailyPriceILS: 180,
       depositILS: 750,
       latitude: 32.0853,

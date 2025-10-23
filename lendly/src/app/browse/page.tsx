@@ -20,31 +20,45 @@ import {
   Calendar,
   Filter
 } from 'lucide-react'
+import { Filters, Category } from '@/lib/types'
 
 export default function BrowsePage() {
   const searchParams = useSearchParams()
   const [viewMode, setViewMode] = useState<'list' | 'map' | 'split'>('split')
   const [showFilters, setShowFilters] = useState(false)
-  const [filters, setFilters] = useState({
-    category: searchParams.get('category') || '',
-    location: searchParams.get('location') || searchParams.get('q') || '',
-    dates: searchParams.get('dates') || '',
-    priceRange: [0, 1000] as [number, number],
-    radius: 25
+  const [filters, setFilters] = useState<Filters>({
+    category: searchParams.get('category') as Category || undefined,
+    city: searchParams.get('location') || searchParams.get('q') || undefined,
+    startDate: searchParams.get('startDate') || undefined,
+    endDate: searchParams.get('endDate') || undefined,
+    priceMin: 0,
+    priceMax: 1000,
+    radiusKm: 25,
+    availableOnly: false,
+    verifiedOnly: false,
+    insuredOnly: false,
+    sortBy: 'nearest'
   })
   const [sortBy, setSortBy] = useState('nearest')
 
   const activeFiltersCount = Object.values(filters).filter(value => 
-    Array.isArray(value) ? value[0] > 0 || value[1] < 1000 : value !== ''
+    value !== undefined && value !== '' && value !== false && 
+    (typeof value !== 'number' || (value !== 0 && value !== 25 && value !== 1000))
   ).length
 
   const clearAllFilters = () => {
     setFilters({
-      category: '',
-      location: '',
-      dates: '',
-      priceRange: [0, 1000],
-      radius: 25
+      category: undefined,
+      city: undefined,
+      startDate: undefined,
+      endDate: undefined,
+      priceMin: 0,
+      priceMax: 1000,
+      radiusKm: 25,
+      availableOnly: false,
+      verifiedOnly: false,
+      insuredOnly: false,
+      sortBy: 'nearest'
     })
   }
 
@@ -58,7 +72,7 @@ export default function BrowsePage() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div>
                 <h1 className="text-4xl font-bold text-neutral-900 mb-2">
-                  {filters.location ? `Equipment in ${filters.location}` : 'Browse Equipment'}
+                  {filters.city ? `Equipment in ${filters.city}` : 'Browse Equipment'}
                 </h1>
                 <p className="text-lg text-neutral-600">
                   {filters.category ? `Find ${filters.category} equipment` : 'Discover premium equipment from trusted local owners'}
@@ -72,8 +86,8 @@ export default function BrowsePage() {
                   <input
                     type="text"
                     placeholder="Search equipment..."
-                    value={filters.location}
-                    onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
+                    value={filters.city || ''}
+                    onChange={(e) => setFilters(prev => ({ ...prev, city: e.target.value }))}
                     className="pl-10 pr-4 py-2 border border-neutral-200 rounded-xl focus:border-primary-500 focus:ring-primary-500/20 w-64"
                   />
                 </div>
@@ -118,31 +132,31 @@ export default function BrowsePage() {
                     <Badge variant="secondary" className="flex items-center gap-1">
                       {filters.category}
                       <button
-                        onClick={() => setFilters(prev => ({ ...prev, category: '' }))}
+                        onClick={() => setFilters(prev => ({ ...prev, category: undefined }))}
                         className="ml-1 hover:text-red-600"
                       >
                         <X className="w-3 h-3" />
                       </button>
                     </Badge>
                   )}
-                  {filters.location && (
+                  {filters.city && (
                     <Badge variant="secondary" className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
-                      {filters.location}
+                      {filters.city}
                       <button
-                        onClick={() => setFilters(prev => ({ ...prev, location: '' }))}
+                        onClick={() => setFilters(prev => ({ ...prev, city: undefined }))}
                         className="ml-1 hover:text-red-600"
                       >
                         <X className="w-3 h-3" />
                       </button>
                     </Badge>
                   )}
-                  {filters.dates && (
+                  {(filters.startDate || filters.endDate) && (
                     <Badge variant="secondary" className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      {filters.dates}
+                      {filters.startDate && filters.endDate ? `${filters.startDate} - ${filters.endDate}` : filters.startDate || filters.endDate}
                       <button
-                        onClick={() => setFilters(prev => ({ ...prev, dates: '' }))}
+                        onClick={() => setFilters(prev => ({ ...prev, startDate: undefined, endDate: undefined }))}
                         className="ml-1 hover:text-red-600"
                       >
                         <X className="w-3 h-3" />
