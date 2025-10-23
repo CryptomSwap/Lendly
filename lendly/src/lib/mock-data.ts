@@ -1,4 +1,4 @@
-// Comprehensive mock data for Lendly marketplace
+// Comprehensive mock data for lendly. marketplace
 export interface User {
   id: string
   name: string
@@ -571,7 +571,7 @@ export const trustFeatures = [
   {
     id: 'deposits',
     title: 'Secure Deposits',
-    description: 'Protected by Lendly',
+    description: 'Protected by lendly.',
     icon: 'Lock',
     color: 'text-neutral-600'
   }

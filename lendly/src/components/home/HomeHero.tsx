@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+import { AnimatedButton } from '@/components/ui/AnimatedButton'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { SearchBar } from './SearchBar'
 import { TrustStrip } from './TrustStrip'
 import { 
@@ -12,12 +13,15 @@ import {
   Star,
   Clock
 } from 'lucide-react'
-import { cx } from '@/lib/ui'
+import { cn } from '@/lib/utils'
 import { trustStats } from '@/lib/mock'
+import { useI18n } from '@/i18n'
+import { formatNumber } from '@/lib/format'
 
 export function HomeHero() {
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null)
   const router = useRouter()
+  const { t, locale } = useI18n()
 
   useEffect(() => {
     // Mock geolocation - in production, use actual geolocation API
@@ -32,42 +36,38 @@ export function HomeHero() {
       }}></div>
       
       {/* Blurred blobs */}
-      <div className="absolute top-20 left-20 w-72 h-72 bg-mint/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-20 w-96 h-96 bg-sky/10 rounded-full blur-3xl"></div>
+      <div className={`absolute top-20 w-72 h-72 bg-mint/10 rounded-full blur-3xl ${locale === 'he' ? 'right-20' : 'left-20'}`}></div>
+      <div className={`absolute bottom-20 w-96 h-96 bg-sky/10 rounded-full blur-3xl ${locale === 'he' ? 'left-20' : 'right-20'}`}></div>
       
       <div className="relative max-w-[1200px] mx-auto px-6">
         {/* Header */}
         <div className="pt-20 pb-16 text-center">
           <div className="mb-8">
             <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200 transition-colors">
-              <TrendingUp className="w-3 h-3 mr-1" />
-              {trustStats.totalBookings.toLocaleString()}+ successful rentals
+              <TrendingUp className={`w-3 h-3 ${locale === 'he' ? 'ml-1' : 'mr-1'}`} />
+              {formatNumber(trustStats.totalBookings, locale)}+ {t('common.success')} rentals
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-              Rent anything near you —
-              <span className="block bg-gradient-to-r from-emerald to-sky bg-clip-text text-transparent">
-                insured & verified
-              </span>
+              {t('hero.title')}
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-8">
-              Discover premium equipment from verified owners in your area. 
-              <span className="font-medium text-slate-700"> Everything insured, every rental protected.</span>
+              {t('hero.subtitle')}
             </p>
           </div>
 
           {/* Trust Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-12 text-sm">
-            <div className="flex items-center gap-2 text-emerald-600">
+          <div className={`flex flex-wrap items-center justify-center gap-6 mb-12 text-sm ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-center gap-2 text-emerald-600 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
               <Shield className="w-4 h-4" />
-              <span className="font-medium">{trustStats.verifiedUsers.toLocaleString()}+ verified users</span>
+              <span className="font-medium">{formatNumber(trustStats.verifiedUsers, locale)}+ {t('common.verified')} users</span>
             </div>
-            <div className="flex items-center gap-2 text-sky-600">
+            <div className={`flex items-center gap-2 text-sky-600 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
               <Star className="w-4 h-4" />
-              <span className="font-medium">{trustStats.averageRating}/5 average rating</span>
+              <span className="font-medium">{trustStats.averageRating}/5 {t('common.rating')}</span>
             </div>
-            <div className="flex items-center gap-2 text-emerald-600">
+            <div className={`flex items-center gap-2 text-emerald-600 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
               <Clock className="w-4 h-4" />
               <span className="font-medium">{trustStats.responseTime} response time</span>
             </div>
@@ -85,21 +85,21 @@ export function HomeHero() {
         </div>
 
         {/* Secondary CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 ${locale === 'he' ? 'sm:flex-row-reverse' : ''}`}>
           <Button 
             variant="outline" 
             size="lg"
             onClick={() => router.push('/browse')}
             className="w-full sm:w-auto"
           >
-            Browse categories
+            {t('nav.browse')}
           </Button>
           <Button 
             size="lg"
             onClick={() => router.push('/list')}
             className="w-full sm:w-auto"
           >
-            List your gear
+            {t('nav.listItem')}
           </Button>
         </div>
       </div>

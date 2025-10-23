@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useSession, signIn, signOut } from 'next-auth/react'
-import { Button } from '@/components/ui/button'
+// import { useSession, signIn, signOut } from 'next-auth/react'
+import { AnimatedButton } from '@/components/ui/AnimatedButton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -13,16 +13,22 @@ import {
   Plus,
   Bell,
   Heart,
-  Search
+  Search,
+  Globe
 } from 'lucide-react'
-import { cx } from '@/lib/ui'
-import { isRTL } from '@/lib/i18n'
+import { useI18n } from '@/i18n'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { data: session, status } = useSession()
-  const rtl = isRTL()
+  // const { data: session, status } = useSession()
+  const { t, locale, setLocale } = useI18n()
+
+  const toggleLanguage = () => {
+    setLocale(locale === 'he' ? 'en' : 'he')
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,52 +39,57 @@ export function Navbar() {
   }, [])
 
   return (
-    <nav className={cx(
+    <nav className={cn(
       "sticky top-0 z-50 transition-all duration-300",
       isScrolled 
-        ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-lg" 
-        : "bg-white/80 backdrop-blur-sm border-b border-slate-200/50"
+        ? "bg-white/95 backdrop-blur-md border-b border-border shadow-lg" 
+        : "bg-white/80 backdrop-blur-sm border-b border-border/50"
     )}>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <span className="text-white font-bold text-xl">L</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-slate-900">Lendly</span>
-              <span className="text-xs text-slate-500 -mt-1">Trusted Rentals</span>
-            </div>
+          <Link href="/" className="flex items-center group">
+            <span className="text-2xl font-bold lendly-logo group-hover:scale-105 transition-all duration-300">
+              {locale === 'he' ? 'לנדלי.' : 'lendly.'}
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link 
               href="/browse" 
-              className="text-slate-700 hover:text-emerald transition-colors font-medium relative group"
+              className="text-slate-600 hover:text-teal-500 font-medium transition-colors duration-300 relative group"
             >
-              Browse
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald transition-all duration-300 group-hover:w-full"></span>
+              {t('nav.browse')}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link 
               href="/list" 
-              className="text-slate-700 hover:text-emerald transition-colors font-medium relative group"
+              className="text-slate-600 hover:text-teal-500 font-medium transition-colors duration-300 relative group"
             >
-              List Item
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald transition-all duration-300 group-hover:w-full"></span>
+              {t('nav.listItem')}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             
-            {status === 'loading' ? (
+            {false ? (
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse"></div>
               </div>
-            ) : session ? (
+            ) : false ? (
               <div className="flex items-center space-x-4">
+                <AnimatedButton 
+                  variant="ghost" 
+                  onPress={toggleLanguage}
+                  className="text-slate-700 hover:text-emerald hover:bg-emerald-50"
+                  ariaLabel={locale === 'he' ? t('nav.switchToEnglish') : t('nav.switchToHebrew')}
+                >
+                  <Globe className="w-4 h-4" />
+                  <span className="ml-1 font-medium">{locale === 'he' ? 'EN' : 'עב'}</span>
+                </AnimatedButton>
                 <Link href="/dashboard">
-                  <Button variant="ghost" size="sm" className="text-slate-700 hover:text-emerald hover:bg-emerald-50">
-                    Dashboard
-                  </Button>
+                  <AnimatedButton variant="ghost" className="text-slate-700 hover:text-emerald hover:bg-emerald-50">
+                    {t('nav.dashboard')}
+                  </AnimatedButton>
                 </Link>
                 
                 <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900 relative">
@@ -111,20 +122,29 @@ export function Navbar() {
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <Button 
+                <AnimatedButton 
                   variant="ghost" 
-                  onClick={() => signIn()}
-                  className="text-slate-700 hover:text-emerald hover:bg-emerald-50"
+                  onPress={toggleLanguage}
+                  className="text-slate-600 hover:text-teal-500 hover:bg-teal-50"
+                  ariaLabel={locale === 'he' ? t('nav.switchToEnglish') : t('nav.switchToHebrew')}
                 >
-                  Sign In
-                </Button>
-                <Button 
-                  onClick={() => signIn()}
-                  className="bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  <Globe className="w-4 h-4" />
+                  <span className="ml-1 font-medium">{locale === 'he' ? 'EN' : 'עב'}</span>
+                </AnimatedButton>
+                <AnimatedButton 
+                  variant="ghost" 
+                  onPress={() => window.location.href = '/sign-in'}
+                  className="text-slate-600 hover:text-teal-500 hover:bg-teal-50"
                 >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Sign Up
-                </Button>
+                  {t('nav.signIn')}
+                </AnimatedButton>
+                <AnimatedButton 
+                  onPress={() => window.location.href = '/sign-up'}
+                  className="bg-gradient-to-r from-teal-500 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  icon={<Plus className="w-4 h-4" />}
+                >
+                  {t('nav.signUp')}
+                </AnimatedButton>
               </div>
             )}
           </div>
@@ -151,28 +171,37 @@ export function Navbar() {
                 className="text-slate-700 hover:text-emerald transition-colors font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Browse Equipment
+                {t('nav.browse')}
               </Link>
               <Link
                 href="/list"
                 className="text-slate-700 hover:text-emerald transition-colors font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                List Your Item
+                {t('nav.listItem')}
               </Link>
               
-              {status === 'loading' ? (
+              {false ? (
                 <div className="flex items-center space-x-3 py-2">
                   <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse"></div>
                 </div>
-              ) : session ? (
+              ) : false ? (
                 <>
+                  <AnimatedButton 
+                    variant="ghost" 
+                    onPress={toggleLanguage}
+                    className="justify-start text-slate-700 hover:text-emerald"
+                    ariaLabel={locale === 'he' ? t('nav.switchToEnglish') : t('nav.switchToHebrew')}
+                  >
+                    <Globe className="w-4 h-4 mr-2" />
+                    {locale === 'he' ? t('nav.switchToEnglish') : t('nav.switchToHebrew')}
+                  </AnimatedButton>
                   <Link
                     href="/dashboard"
                     className="text-slate-700 hover:text-emerald transition-colors font-medium py-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Dashboard
+                    {t('nav.dashboard')}
                   </Link>
                   <div className="flex items-center gap-4 py-2">
                     <Button variant="ghost" size="sm" className="text-slate-600">
@@ -185,31 +214,40 @@ export function Navbar() {
                   <Button
                     variant="ghost"
                     onClick={() => {
-                      signOut()
+                      window.location.href = '/sign-out'
                       setIsMenuOpen(false)
                     }}
                     className="justify-start text-slate-700 hover:text-red-600 hover:bg-red-50"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
+                    {t('nav.signOut')}
                   </Button>
                 </>
               ) : (
                 <div className="flex flex-col space-y-3 pt-4">
-                  <Button 
+                  <AnimatedButton 
                     variant="ghost" 
-                    onClick={() => signIn()}
+                    onPress={toggleLanguage}
+                    className="justify-start text-slate-700 hover:text-emerald"
+                    ariaLabel={locale === 'he' ? t('nav.switchToEnglish') : t('nav.switchToHebrew')}
+                  >
+                    <Globe className="w-4 h-4 mr-2" />
+                    {locale === 'he' ? t('nav.switchToEnglish') : t('nav.switchToHebrew')}
+                  </AnimatedButton>
+                  <AnimatedButton 
+                    variant="ghost" 
+                    onPress={() => window.location.href = '/sign-in'}
                     className="justify-start text-slate-700 hover:text-emerald"
                   >
-                    Sign In
-                  </Button>
-                  <Button 
-                    onClick={() => signIn()}
+                    {t('nav.signIn')}
+                  </AnimatedButton>
+                  <AnimatedButton 
+                    onPress={() => window.location.href = '/sign-up'}
                     className="bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white"
+                    icon={<Plus className="w-4 h-4" />}
                   >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Sign Up
-                  </Button>
+                    {t('nav.signUp')}
+                  </AnimatedButton>
                 </div>
               )}
             </div>

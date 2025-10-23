@@ -3,34 +3,36 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const { t, locale } = useI18n()
 
   const faqs = [
     {
-      question: 'How does the insurance work?',
-      answer: 'Every rental is automatically covered by our comprehensive insurance policy. This includes protection against damage, theft, and liability. The insurance is included in the rental price, so you don\'t need to worry about additional costs.'
+      question: t('faq.question1'),
+      answer: t('faq.answer1')
     },
     {
-      question: 'What happens if the equipment is damaged?',
-      answer: 'If equipment is damaged during your rental period, our insurance will cover the repair or replacement costs. You\'ll only be responsible for the deductible, which is clearly stated before you book. We handle all the paperwork and claims process.'
+      question: t('faq.question2'),
+      answer: t('faq.answer2')
     },
     {
-      question: 'How do I verify my identity?',
-      answer: 'We use a secure, government-verified ID system that takes just a few minutes. You\'ll need to provide a valid government ID and take a quick selfie. This helps keep our community safe and builds trust between renters and owners.'
+      question: t('faq.question3'),
+      answer: t('faq.answer3')
     },
     {
-      question: 'Can I cancel my booking?',
-      answer: 'Yes, you can cancel your booking up to 24 hours before the rental period begins for a full refund. Cancellations within 24 hours may be subject to a cancellation fee. Check the specific listing for exact cancellation terms.'
+      question: t('faq.question4'),
+      answer: t('faq.answer4')
     },
     {
-      question: 'How do I pick up and return equipment?',
-      answer: 'Pickup and return details are arranged directly with the equipment owner. Most owners offer flexible pickup times and locations. Some may offer delivery for an additional fee. All details are communicated through our secure messaging system.'
+      question: t('faq.question5'),
+      answer: t('faq.answer5')
     },
     {
-      question: 'What if the owner doesn\'t respond?',
-      answer: 'If an owner doesn\'t respond within 24 hours, our support team will reach out to help resolve the issue. In rare cases where we can\'t reach the owner, we\'ll help you find alternative equipment or provide a full refund.'
+      question: t('faq.question6'),
+      answer: t('faq.answer6')
     }
   ]
 
@@ -43,10 +45,10 @@ export function FAQ() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Frequently Asked Questions
+            {t('faq.title')}
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Everything you need to know about renting equipment on Lendly
+            {t('faq.subtitle')}
           </p>
         </div>
 
@@ -60,9 +62,9 @@ export function FAQ() {
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-slate-50 transition-colors"
+                  className={`w-full px-8 py-6 flex items-center justify-between hover:bg-slate-50 transition-colors ${locale === 'he' ? 'text-right flex-row-reverse' : 'text-left'}`}
                 >
-                  <h3 className="text-lg font-semibold text-slate-900 pr-4">
+                  <h3 className={`text-lg font-semibold text-slate-900 ${locale === 'he' ? 'pl-4' : 'pr-4'}`}>
                     {faq.question}
                   </h3>
                   {openIndex === index ? (

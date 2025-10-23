@@ -9,8 +9,14 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Lendly - Premium Equipment Rentals",
+  title: "lendly. - Premium Equipment Rentals",
   description: "Rent anything near you — insured & verified.",
+  alternates: {
+    languages: {
+      'en': '/en',
+      'he': '/he',
+    },
+  },
 };
 
 export default function RootLayout({
@@ -19,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body
         className={`${plusJakartaSans.variable} font-sans antialiased`}
         suppressHydrationWarning

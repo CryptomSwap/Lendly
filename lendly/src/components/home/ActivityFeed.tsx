@@ -11,24 +11,26 @@ import {
 import { getRecentActivity } from '@/lib/mock'
 import { formatTimeAgo } from '@/lib/ui'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function ActivityFeed() {
   const [activities] = useState(getRecentActivity('Tel Aviv'))
+  const { t, locale } = useI18n()
 
   return (
     <section className="py-20 bg-fog/50">
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200">
-            <TrendingUp className="w-3 h-3 mr-1" />
-            Live Activity
+            <TrendingUp className={`w-3 h-3 ${locale === 'he' ? 'ml-1' : 'mr-1'}`} />
+            {t('activity.live')}
           </Badge>
           
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Happening Near You
+            {t('activity.title')}
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            See what's happening in your local rental community
+            {t('activity.subtitle')}
           </p>
         </div>
 
@@ -36,7 +38,7 @@ export function ActivityFeed() {
           {activities.map((activity, index) => (
             <div 
               key={activity.id} 
-              className="flex items-center gap-4 p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/80 transition-all duration-200 animate-slide-up"
+              className={`flex items-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/80 transition-all duration-200 animate-slide-up ${locale === 'he' ? 'flex-row-reverse gap-4' : 'gap-4'}`}
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
@@ -61,12 +63,12 @@ export function ActivityFeed() {
                 <p className="text-sm text-slate-600 line-clamp-2 mb-2">
                   {activity.description}
                 </p>
-                <div className="flex items-center gap-4 text-xs text-slate-500">
-                  <div className="flex items-center gap-1">
+                <div className={`flex items-center gap-4 text-xs text-slate-500 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-center ${locale === 'he' ? 'flex-row-reverse gap-1' : 'gap-1'}`}>
                     <MapPin className="w-3 h-3" />
                     <span>{activity.distance}km away</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className={`flex items-center ${locale === 'he' ? 'flex-row-reverse gap-1' : 'gap-1'}`}>
                     <Clock className="w-3 h-3" />
                     <span>{formatTimeAgo(activity.timestamp)}</span>
                   </div>
@@ -91,7 +93,7 @@ export function ActivityFeed() {
             variant="outline" 
             size="lg"
           >
-            View All Activity
+            {t('activity.viewAll')}
           </Button>
         </div>
       </div>

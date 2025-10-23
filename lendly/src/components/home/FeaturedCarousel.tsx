@@ -21,11 +21,13 @@ import { formatILS } from '@/lib/currency'
 import { haversineDistance, TEL_AVIV_COORDS } from '@/lib/geo'
 import { getFeaturedItems } from '@/lib/mock'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function FeaturedCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const router = useRouter()
+  const { t, locale } = useI18n()
   
   const featuredItems = getFeaturedItems(8)
   const itemsPerView = 3
@@ -60,11 +62,10 @@ export function FeaturedCarousel() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Featured Equipment
-            <span className="block text-emerald">Near You</span>
+            {t('featured.title')}
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Discover high-quality equipment from verified local owners. Every rental is protected and insured.
+            {t('featured.subtitle')}
           </p>
         </div>
 
@@ -73,17 +74,17 @@ export function FeaturedCarousel() {
           <button
             onClick={prevSlide}
             disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            className={`absolute top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ${locale === 'he' ? 'right-0' : 'left-0'}`}
           >
-            <ChevronLeft className="w-6 h-6 text-slate-600" />
+            <ChevronLeft className={`w-6 h-6 text-slate-600 ${locale === 'he' ? 'rotate-180' : ''}`} />
           </button>
           
           <button
             onClick={nextSlide}
             disabled={currentIndex >= maxIndex}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            className={`absolute top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ${locale === 'he' ? 'left-0' : 'right-0'}`}
           >
-            <ChevronRight className="w-6 h-6 text-slate-600" />
+            <ChevronRight className={`w-6 h-6 text-slate-600 ${locale === 'he' ? 'rotate-180' : ''}`} />
           </button>
 
           {/* Carousel Container */}
@@ -121,7 +122,7 @@ export function FeaturedCarousel() {
                             e.stopPropagation()
                             toggleFavorite(item.id)
                           }}
-                          className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          className={`absolute top-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors ${locale === 'he' ? 'left-3' : 'right-3'}`}
                         >
                           <Heart 
                             className={`w-4 h-4 transition-colors ${
@@ -131,19 +132,19 @@ export function FeaturedCarousel() {
                         </button>
                         
                         {/* Overlay badges */}
-                        <div className="absolute top-3 left-3 flex flex-col gap-2">
+                        <div className={`absolute top-3 flex flex-col gap-2 ${locale === 'he' ? 'right-3' : 'left-3'}`}>
                           <Badge className="bg-black/80 text-white border-0 backdrop-blur-sm">
-                            <MapPin className="w-3 h-3 mr-1" />
+                            <MapPin className={`w-3 h-3 ${locale === 'he' ? 'ml-1' : 'mr-1'}`} />
                             {distance.toFixed(1)} km
                           </Badge>
                           <Badge className="bg-emerald-500/90 text-white border-0 backdrop-blur-sm">
-                            <CheckCircle className="w-3 h-3 mr-1" />
+                            <CheckCircle className={`w-3 h-3 ${locale === 'he' ? 'ml-1' : 'mr-1'}`} />
                             Available
                           </Badge>
                         </div>
                         
                         {/* Trust badges */}
-                        <div className="absolute bottom-3 left-3 flex gap-2">
+                        <div className={`absolute bottom-3 flex gap-2 ${locale === 'he' ? 'right-3' : 'left-3'}`}>
                           {item.verified && (
                             <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
                               <Shield className="w-3 h-3 text-white" />
@@ -173,29 +174,29 @@ export function FeaturedCarousel() {
                         </div>
                         
                         {/* Rating and reviews */}
-                        <div className="flex items-center mb-3">
-                          <div className="flex items-center">
+                        <div className={`flex items-center mb-3 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
+                          <div className={`flex items-center ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
                             <Star className="w-4 h-4 text-amber-400 fill-current" />
-                            <span className="text-sm font-semibold ml-1 text-slate-900">
+                            <span className={`text-sm font-semibold text-slate-900 ${locale === 'he' ? 'mr-1' : 'ml-1'}`}>
                               {item.rating}
                             </span>
                           </div>
-                          <span className="text-sm text-slate-500 ml-2">
+                          <span className={`text-sm text-slate-500 ${locale === 'he' ? 'mr-2' : 'ml-2'}`}>
                             ({item.reviewCount} reviews)
                           </span>
-                          <div className="ml-auto flex items-center text-xs text-slate-500">
-                            <Clock className="w-3 h-3 mr-1" />
+                          <div className={`flex items-center text-xs text-slate-500 ${locale === 'he' ? 'mr-auto flex-row-reverse' : 'ml-auto'}`}>
+                            <Clock className={`w-3 h-3 ${locale === 'he' ? 'ml-1' : 'mr-1'}`} />
                             {item.owner.responseTime}
                           </div>
                         </div>
 
                         {/* Price and CTA */}
-                        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                        <div className={`flex items-center justify-between pt-3 border-t border-slate-100 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
                           <div>
                             <span className="text-xl font-bold text-slate-900">
                               {formatILS(item.pricePerDay)}
                             </span>
-                            <span className="text-sm text-slate-500 ml-1">/day</span>
+                            <span className={`text-sm text-slate-500 ${locale === 'he' ? 'mr-1' : 'ml-1'}`}>/day</span>
                             {item.deposit > 0 && (
                               <p className="text-xs text-slate-500 mt-1">
                                 + {formatILS(item.deposit)} deposit
@@ -204,10 +205,10 @@ export function FeaturedCarousel() {
                           </div>
                           <Button 
                             size="sm" 
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl px-3 py-1 group-hover:scale-105 transition-transform"
+                            className={`bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl px-3 py-1 group-hover:scale-105 transition-transform ${locale === 'he' ? 'flex-row-reverse' : ''}`}
                           >
                             <span>View</span>
-                            <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className={`w-3 h-3 transition-transform ${locale === 'he' ? 'mr-1 group-hover:-translate-x-1' : 'ml-1 group-hover:translate-x-1'}`} />
                           </Button>
                         </div>
                       </CardContent>

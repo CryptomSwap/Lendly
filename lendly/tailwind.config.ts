@@ -18,27 +18,76 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Custom Lendly color palette
-        emerald: {
-          DEFAULT: "#10B981",
-          50: "#ECFDF5",
-          100: "#D1FAE5",
-          200: "#A7F3D0",
-          300: "#6EE7B7",
-          400: "#34D399",
-          500: "#10B981",
-          600: "#059669",
-          700: "#047857",
-          800: "#065F46",
-          900: "#064E3B",
+        // New Lendly Turquoise Color System
+        // Primary Colors - Turquoise Gradient
+        primary: {
+          DEFAULT: "#00C6A2", // Main turquoise
+          50: "#E6FFFE",
+          100: "#CCFDF9",
+          200: "#99FBF3",
+          300: "#66F9ED",
+          400: "#33F7E7",
+          500: "#00C6A2", // Main
+          600: "#009E82",
+          700: "#007662",
+          800: "#004E42",
+          900: "#002621",
         },
-        sky: {
-          DEFAULT: "#38BDF8",
+        "primary-light": "#A3F0E2",
+        "primary-dark": "#007C7F",
+        
+        // Secondary Colors - Sky Blue
+        secondary: {
+          DEFAULT: "#4FD1F8", // Soft sky blue
           50: "#F0F9FF",
           100: "#E0F2FE",
           200: "#BAE6FD",
           300: "#7DD3FC",
-          400: "#38BDF8",
+          400: "#4FD1F8", // Main
+          500: "#0EA5E9",
+          600: "#0284C7",
+          700: "#0369A1",
+          800: "#075985",
+          900: "#0C4A6E",
+        },
+        "secondary-light": "#E6FAFF",
+        "secondary-dark": "#005E70",
+        
+        // Neutrals - Clean & Modern
+        background: "#F9FAFB",
+        surface: "#FFFFFF",
+        border: "#E5E7EB",
+        "text-primary": "#0F172A",
+        "text-secondary": "#475569",
+        "text-muted": "#94A3B8",
+        
+        // Accent Colors
+        success: "#16A34A",
+        warning: "#F59E0B",
+        error: "#EF4444",
+        info: "#38BDF8",
+        
+        // Legacy support (will be phased out)
+        emerald: {
+          DEFAULT: "#00C6A2", // Updated to match primary
+          50: "#E6FFFE",
+          100: "#CCFDF9",
+          200: "#99FBF3",
+          300: "#66F9ED",
+          400: "#33F7E7",
+          500: "#00C6A2",
+          600: "#009E82",
+          700: "#007662",
+          800: "#004E42",
+          900: "#002621",
+        },
+        sky: {
+          DEFAULT: "#4FD1F8", // Updated to match secondary
+          50: "#F0F9FF",
+          100: "#E0F2FE",
+          200: "#BAE6FD",
+          300: "#7DD3FC",
+          400: "#4FD1F8",
           500: "#0EA5E9",
           600: "#0284C7",
           700: "#0369A1",
@@ -58,22 +107,13 @@ const config: Config = {
           900: "#0F172A",
         },
         fog: "#F9FAFB",
-        mint: "#A7F3D0",
-        amber: "#FBBF24",
-        red: "#EF4444",
+        mint: "#A3F0E2", // Updated to match primary-light
+        
+        // CSS Variables for component system
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -122,6 +162,19 @@ const config: Config = {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
+        "gradient-shimmer": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
+        "turquoise-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(0, 198, 162, 0.3)" },
+          "50%": { boxShadow: "0 0 30px rgba(0, 198, 162, 0.5)" },
+        },
+        "gradient-flow": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "100%": { backgroundPosition: "200% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -129,6 +182,9 @@ const config: Config = {
         "fade-in": "fade-in 0.3s ease-out",
         "slide-up": "slide-up 0.3s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
+        "gradient-shimmer": "gradient-shimmer 2s ease-in-out infinite",
+        "turquoise-glow": "turquoise-glow 2s ease-in-out infinite",
+        "gradient-flow": "gradient-flow 3s ease-in-out infinite",
       },
       fontFamily: {
         sans: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
@@ -146,6 +202,14 @@ const config: Config = {
         "md": "0 4px 12px rgba(0, 0, 0, 0.08)",
         "lg": "0 8px 24px rgba(0, 0, 0, 0.10)",
         "xl": "0 20px 40px rgba(0, 0, 0, 0.12)",
+      },
+      backgroundImage: {
+        'gradient-turquoise': 'linear-gradient(135deg, #00C6A2 0%, #4FD1F8 100%)',
+        'gradient-turquoise-hover': 'linear-gradient(135deg, #00AEEF 0%, #00C6A2 100%)',
+        'gradient-turquoise-subtle': 'linear-gradient(135deg, rgba(0, 198, 162, 0.1) 0%, rgba(79, 209, 248, 0.1) 100%)',
+      },
+      backgroundClip: {
+        'text': 'text',
       },
     },
   },

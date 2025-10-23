@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { cx } from '@/lib/ui'
 import { Category } from '@/lib/types'
+import { useI18n } from '@/i18n'
 
 export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -19,6 +20,7 @@ export function SearchBar() {
   const [dates, setDates] = useState('')
   const [category, setCategory] = useState<Category | ''>('')
   const router = useRouter()
+  const { t, locale } = useI18n()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -67,14 +69,14 @@ export function SearchBar() {
             onChange={(e) => setCategory(e.target.value as Category | '')}
             className="w-full h-12 pl-4 pr-10 rounded-pill border border-slate-200 bg-white text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-sky focus:ring-offset-2 focus:border-sky transition-all duration-200 appearance-none"
           >
-            <option value="">Category</option>
+            <option value="">{t('filters.category')}</option>
             {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>
                 {cat.label}
               </option>
             ))}
           </select>
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <div className={`absolute top-1/2 transform -translate-y-1/2 pointer-events-none ${locale === 'he' ? 'left-3' : 'right-3'}`}>
             <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -83,18 +85,18 @@ export function SearchBar() {
         
         {/* Location Input */}
         <div className="relative">
-          <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+          <MapPin className={`absolute top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5 ${locale === 'he' ? 'right-4' : 'left-4'}`} />
           <Input
             type="text"
-            placeholder="Location"
+            placeholder={t('hero.locationPlaceholder')}
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="pl-12 pr-12 h-12"
+            className={`${locale === 'he' ? 'pr-12 pl-12' : 'pl-12 pr-12'} h-12`}
           />
           <button
             type="button"
             onClick={handleGeolocate}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-slate-100 rounded-full transition-colors"
+            className={`absolute top-1/2 transform -translate-y-1/2 p-1 hover:bg-slate-100 rounded-full transition-colors ${locale === 'he' ? 'left-3' : 'right-3'}`}
           >
             <Navigation className="w-4 h-4 text-slate-400 hover:text-slate-600" />
           </button>
@@ -102,13 +104,13 @@ export function SearchBar() {
         
         {/* Date Range */}
         <div className="relative">
-          <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+          <Calendar className={`absolute top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5 ${locale === 'he' ? 'right-4' : 'left-4'}`} />
           <Input
             type="text"
-            placeholder="Dates"
+            placeholder={t('hero.datesPlaceholder')}
             value={dates}
             onChange={(e) => setDates(e.target.value)}
-            className="pl-12 h-12"
+            className={`${locale === 'he' ? 'pr-12' : 'pl-12'} h-12`}
           />
         </div>
         
@@ -118,8 +120,8 @@ export function SearchBar() {
           size="lg" 
           className="h-12 bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
         >
-          <Search className="w-5 h-5 mr-2" />
-          Search Equipment
+          <Search className={`w-5 h-5 ${locale === 'he' ? 'ml-2' : 'mr-2'}`} />
+          {t('cta.search')}
         </Button>
       </div>
       

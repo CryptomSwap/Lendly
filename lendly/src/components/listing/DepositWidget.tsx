@@ -1,53 +1,184 @@
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Shield, Info } from 'lucide-react'
-import { formatILS } from '@/lib/currency'
-import { cx } from '@/lib/ui'
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, useMotionValue, useAnimationFrame } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { useI18n } from '@/i18n';
+import { formatCurrencyILS } from '@/lib/format';
 
 interface DepositWidgetProps {
-  amount: number
-  explanation: string[]
+  itemId: string;
+  category: string;
+  startDate?: Date;
+  endDate?: Date;
+  insurance?: boolean;
+  pickupMethod?: 'pickup' | 'delivery';
 }
 
-export function DepositWidget({ amount, explanation }: DepositWidgetProps) {
+interface DepositData {
+  depositAmount: number;
+  riskFactors: string[];
+  deductible: number;
+  claimWindow: string;
+  explanation: {
+    baseAmount: number;
+    durationMultiplier: number;
+    pickupMultiplier: number;
+    insuranceDiscount: number;
+  };
+}
+
+export function DepositWidget({
+  itemId,
+  category,
+  startDate,
+  endDate,
+  insurance = false,
+  pickupMethod = 'pickup',
+}: DepositWidgetProps) {
+  const { t, locale } = useI18n();
+  const [depositData, setDepositData] = useState<DepositData | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const animatedValue = useMotionValue(0);
+
+  // Animate the deposit amount
+  useAnimationFrame(() => {
+    if (depositData && isExpanded) {
+      const current = animatedValue.get();
+      const target = depositData.depositAmount;
+      const diff = target - current;
+      
+      if (Math.abs(diff) > 1) {
+        animatedValue.set(current + diff * 0.1);
+      } else {
+        animatedValue.set(target);
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      calculateDeposit();
+    }
+  }, [itemId, category, startDate, endDate, insurance, pickupMethod]);
+
+  const calculateDeposit = async () => {
+    if (!startDate || !endDate) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/risk/deposit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          itemId,
+          category,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          insurance,
+          pickupMethod,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setDepositData(data);
+        animatedValue.set(0); // Reset for animation
+      }
+    } catch (error) {
+      console.error('Deposit calculation error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (!depositData) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('deposit.title')}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center text-gray-500">
+            {isLoading ? t('common.loading') : t('booking.dates')}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="bg-slate-50 border-slate-200">
-      <CardContent className="p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-            <Shield className="w-4 h-4 text-emerald-600" />
-          </div>
-          <div>
-            <h4 className="font-semibold text-slate-900">Security Deposit</h4>
-            <p className="text-sm text-slate-600">Held securely until return</p>
-          </div>
-        </div>
-        
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-slate-600">Deposit Amount</span>
-            <span className="text-xl font-bold text-slate-900">
-              {formatILS(amount)}
-            </span>
-          </div>
-          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">
-            <Info className="w-3 h-3 mr-1" />
-            Only charged if needed
-          </Badge>
-        </div>
-        
-        <div className="space-y-2">
-          <h5 className="font-medium text-slate-900 text-sm">How it works:</h5>
-          <ul className="space-y-1">
-            {explanation.map((point, index) => (
-              <li key={index} className="flex items-start gap-2 text-sm text-slate-600">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          {t('deposit.title')}
+          <motion.div
+            className="text-2xl font-bold text-blue-600"
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {formatCurrencyILS(Math.round(animatedValue.get()), locale)}
+          </motion.div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="explanation">
+            <AccordionTrigger
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-sm"
+            >
+              {t('deposit.explanation')}
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-3 text-sm">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <span className="font-medium">{t('deposit.baseAmount')}:</span>
+                    <br />
+                    {formatCurrencyILS(depositData.explanation.baseAmount, locale)}
+                  </div>
+                  <div>
+                    <span className="font-medium">{t('deposit.deductible')}:</span>
+                    <br />
+                    {formatCurrencyILS(depositData.deductible, locale)}
+                  </div>
+                </div>
+                
+                <div>
+                  <span className="font-medium">{t('deposit.riskFactors')}:</span>
+                  <ul className="mt-1 space-y-1">
+                    {depositData.riskFactors.map((factor, index) => (
+                      <motion.li
+                        key={index}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-center gap-2"
+                      >
+                        <span className="w-1 h-1 bg-gray-400 rounded-full" />
+                        {factor}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-2 border-t">
+                  <span className="font-medium">{t('deposit.claimWindow')}:</span>
+                  <br />
+                  {depositData.claimWindow}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </CardContent>
     </Card>
-  )
+  );
 }

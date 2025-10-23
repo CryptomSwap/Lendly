@@ -1,13 +1,18 @@
+'use client'
+
 import { Shield, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function SafetyBlock() {
+  const { t, locale } = useI18n()
+  
   const safetyFeatures = [
-    'ID verification',
-    'Deposit hold (only captured if needed)',
-    'Per-rental insurance',
-    'Dispute resolution <72h'
+    t('safety.feature1'),
+    t('safety.feature2'),
+    t('safety.feature3'),
+    t('safety.feature4')
   ]
 
   return (
@@ -15,33 +20,33 @@ export function SafetyBlock() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Text */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
+          <div className={locale === 'he' ? 'lg:order-2' : ''}>
+            <div className={`flex items-center mb-6 ${locale === 'he' ? 'flex-row-reverse gap-3' : 'gap-3'}`}>
               <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
                 <Shield className="w-6 h-6 text-emerald-600" />
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
-                Safety, built in.
+                {t('safety.title')}
               </h2>
             </div>
             <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-              We've built comprehensive protection into every rental to give you peace of mind.
+              {t('safety.subtitle')}
             </p>
             <Button 
               size="lg" 
               className="bg-emerald-600 hover:bg-emerald-700 text-white"
               onClick={() => window.location.href = '/safety'}
             >
-              How protection works
+              {t('safety.button')}
             </Button>
           </div>
 
           {/* Right side - Features */}
-          <div className="space-y-6">
+          <div className={`space-y-6 ${locale === 'he' ? 'lg:order-1' : ''}`}>
             {safetyFeatures.map((feature, index) => (
               <div 
                 key={feature}
-                className="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 animate-slide-up"
+                className={`flex items-center p-4 bg-white rounded-xl border border-slate-200 animate-slide-up ${locale === 'he' ? 'flex-row-reverse gap-4' : 'gap-4'}`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">

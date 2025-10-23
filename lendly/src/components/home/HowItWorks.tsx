@@ -1,22 +1,27 @@
+'use client'
+
 import { Search, Shield, ArrowRight } from 'lucide-react'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function HowItWorks() {
+  const { t, locale } = useI18n()
+  
   const steps = [
     {
       icon: Search,
-      title: 'Find gear',
-      description: 'Search and discover equipment near you'
+      title: t('howitworks.step1.title'),
+      description: t('howitworks.step1.description')
     },
     {
       icon: Shield,
-      title: 'Book & verify',
-      description: 'Secure booking with verified owners'
+      title: t('howitworks.step2.title'),
+      description: t('howitworks.step2.description')
     },
     {
       icon: ArrowRight,
-      title: 'Pick up & return',
-      description: 'Easy pickup and return process'
+      title: t('howitworks.step3.title'),
+      description: t('howitworks.step3.description')
     }
   ]
 
@@ -25,10 +30,10 @@ export function HowItWorks() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            How It Works
+            {t('howitworks.title')}
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Simple, secure, and trusted equipment rental in three easy steps
+            {t('howitworks.subtitle')}
           </p>
         </div>
 
@@ -45,7 +50,7 @@ export function HowItWorks() {
                   <Icon className="w-10 h-10 text-emerald-600" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                  {index + 1}. {step.title}
+                  {locale === 'he' ? `${step.title} ${index + 1}.` : `${index + 1}. ${step.title}`}
                 </h3>
                 <p className="text-slate-600 leading-relaxed">
                   {step.description}

@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { 
   Shield, 
@@ -10,8 +12,10 @@ import {
   Linkedin
 } from 'lucide-react'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function Footer() {
+  const { t, locale } = useI18n()
   const footerLinks = {
     company: [
       { name: 'About Us', href: '/about' },
@@ -48,31 +52,26 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Brand Section */}
             <div className="lg:col-span-1">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">L</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xl font-bold text-white">Lendly</span>
-                  <span className="text-xs text-slate-400 -mt-1">Trusted Rentals</span>
-                </div>
+              <div className={`flex items-center mb-6 ${locale === 'he' ? 'space-x-reverse space-x-3' : 'space-x-3'}`}>
+                <span className="text-2xl font-bold lendly-logo">
+                  {locale === 'he' ? 'לנדלי.' : 'lendly.'}
+                </span>
               </div>
               <p className="text-slate-400 mb-6 leading-relaxed">
-                The trusted marketplace for equipment rentals. Connect with verified owners 
-                and rent premium equipment with confidence.
+                {t('footer.description')}
               </p>
               
               {/* Contact Info */}
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-slate-400">
+                <div className={`flex items-center text-slate-400 ${locale === 'he' ? 'flex-row-reverse gap-3' : 'gap-3'}`}>
                   <Mail className="w-4 h-4" />
                   <span className="text-sm">support@lendly.com</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-400">
+                <div className={`flex items-center text-slate-400 ${locale === 'he' ? 'flex-row-reverse gap-3' : 'gap-3'}`}>
                   <Phone className="w-4 h-4" />
                   <span className="text-sm">+1 (555) 123-4567</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-400">
+                <div className={`flex items-center text-slate-400 ${locale === 'he' ? 'flex-row-reverse gap-3' : 'gap-3'}`}>
                   <MapPin className="w-4 h-4" />
                   <span className="text-sm">Tel Aviv, Israel</span>
                 </div>
@@ -81,7 +80,7 @@ export function Footer() {
 
             {/* Company Links */}
             <div>
-              <h3 className="font-semibold text-white mb-6">Company</h3>
+              <h3 className="font-semibold text-white mb-6">{t('footer.company')}</h3>
               <ul className="space-y-3">
                 {footerLinks.company.map((link) => (
                   <li key={link.name}>
@@ -98,7 +97,7 @@ export function Footer() {
 
             {/* Support Links */}
             <div>
-              <h3 className="font-semibold text-white mb-6">Support</h3>
+              <h3 className="font-semibold text-white mb-6">{t('footer.support')}</h3>
               <ul className="space-y-3">
                 {footerLinks.support.map((link) => (
                   <li key={link.name}>
@@ -115,7 +114,7 @@ export function Footer() {
 
             {/* Legal Links */}
             <div>
-              <h3 className="font-semibold text-white mb-6">Legal</h3>
+              <h3 className="font-semibold text-white mb-6">{t('footer.legal')}</h3>
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>
@@ -134,29 +133,29 @@ export function Footer() {
 
         {/* Trust Badge */}
         <div className="py-8 border-t border-slate-800">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <div className="flex items-center gap-2 text-emerald-400">
+          <div className={`flex items-center justify-center gap-6 mb-6 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-center text-emerald-400 ${locale === 'he' ? 'flex-row-reverse gap-2' : 'gap-2'}`}>
               <Shield className="w-5 h-5" />
-              <span className="font-medium">Verified & Insured</span>
+              <span className="font-medium">{t('footer.verifiedInsured')}</span>
             </div>
             <div className="w-px h-6 bg-slate-700"></div>
-            <div className="flex items-center gap-2 text-sky-400">
+            <div className={`flex items-center text-sky-400 ${locale === 'he' ? 'flex-row-reverse gap-2' : 'gap-2'}`}>
               <Shield className="w-5 h-5" />
-              <span className="font-medium">24/7 Support</span>
+              <span className="font-medium">{t('footer.support247')}</span>
             </div>
             <div className="w-px h-6 bg-slate-700"></div>
-            <div className="flex items-center gap-2 text-emerald-400">
+            <div className={`flex items-center text-emerald-400 ${locale === 'he' ? 'flex-row-reverse gap-2' : 'gap-2'}`}>
               <Shield className="w-5 h-5" />
-              <span className="font-medium">Secure Payments</span>
+              <span className="font-medium">{t('footer.securePayments')}</span>
             </div>
           </div>
         </div>
 
         {/* Bottom Section */}
         <div className="py-8 border-t border-slate-800">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className={`flex flex-col md:flex-row items-center justify-between gap-6 ${locale === 'he' ? 'md:flex-row-reverse' : ''}`}>
             <div className="text-slate-400 text-sm">
-              © 2024 Lendly. All rights reserved.
+              {t('footer.copyright')}
             </div>
             
             {/* Social Links */}

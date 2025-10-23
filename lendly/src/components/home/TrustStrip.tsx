@@ -1,22 +1,27 @@
+'use client'
+
 import { Shield, Zap, Users } from 'lucide-react'
 import { cx } from '@/lib/ui'
+import { useI18n } from '@/i18n'
 
 export function TrustStrip() {
+  const { t, locale } = useI18n()
+  
   const trustFeatures = [
     {
       icon: Shield,
-      title: 'Insured & Verified',
-      description: 'All users and items are verified and insured'
+      title: t('trust.insuredVerified'),
+      description: t('trust.insuredVerifiedDesc')
     },
     {
       icon: Zap,
-      title: 'Instant Booking',
-      description: 'Book instantly with verified owners'
+      title: t('trust.instantBooking'),
+      description: t('trust.instantBookingDesc')
     },
     {
       icon: Users,
-      title: 'Local Community',
-      description: 'Connect with trusted local owners'
+      title: t('trust.localCommunity'),
+      description: t('trust.localCommunityDesc')
     }
   ]
 

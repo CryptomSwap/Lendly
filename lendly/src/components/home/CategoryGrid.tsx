@@ -17,9 +17,11 @@ import {
 } from 'lucide-react'
 import { cx } from '@/lib/ui'
 import { Category } from '@/lib/types'
+import { useI18n } from '@/i18n'
 
 export function CategoryGrid() {
   const router = useRouter()
+  const { t, locale } = useI18n()
 
   const categories: {
     id: Category
@@ -30,56 +32,56 @@ export function CategoryGrid() {
   }[] = [
     {
       id: 'cameras',
-      name: 'Cameras',
+      name: t('categories.cameras'),
       icon: Camera,
       description: 'Professional photography equipment',
       examples: ['DSLR Cameras', 'Lenses', 'Tripods', 'Lighting']
     },
     {
       id: 'drones',
-      name: 'Drones',
+      name: t('categories.drones'),
       icon: Drone,
       description: 'Aerial photography and videography',
       examples: ['DJI Mavic', 'Professional Drones', 'Accessories']
     },
     {
       id: 'construction',
-      name: 'Construction',
+      name: t('categories.construction'),
       icon: Hammer,
       description: 'Professional construction tools',
       examples: ['Power Tools', 'Safety Equipment', 'Measuring Tools']
     },
     {
       id: 'gardening',
-      name: 'Gardening',
+      name: t('categories.gardening'),
       icon: Sprout,
       description: 'Garden and landscaping tools',
       examples: ['Lawn Mowers', 'Hedge Trimmers', 'Garden Tools']
     },
     {
       id: 'event-equipment',
-      name: 'Event Equipment',
+      name: t('categories.eventEquipment'),
       icon: PartyPopper,
       description: 'Party and event supplies',
       examples: ['Tables & Chairs', 'Sound Systems', 'Lighting']
     },
     {
       id: 'power-tools',
-      name: 'Power Tools',
+      name: t('categories.powerTools'),
       icon: Wrench,
       description: 'Electric and battery tools',
       examples: ['Drills', 'Saws', 'Sanders', 'Grinders']
     },
     {
       id: 'camping',
-      name: 'Camping',
+      name: t('categories.camping'),
       icon: Tent,
       description: 'Outdoor adventure gear',
       examples: ['Tents', 'Sleeping Bags', 'Cooking Gear']
     },
     {
       id: 'audio-pa',
-      name: 'Audio/PA',
+      name: t('categories.audioPa'),
       icon: Volume2,
       description: 'Sound systems and audio equipment',
       examples: ['Speakers', 'Mixers', 'Microphones']
@@ -95,17 +97,16 @@ export function CategoryGrid() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-sky-100 text-sky-700 border-sky-200">
-            <TrendingUp className="w-3 h-3 mr-1" />
-            Most Popular Categories
+            <TrendingUp className={`w-3 h-3 ${locale === 'he' ? 'ml-1' : 'mr-1'}`} />
+            {t('categories.popular')}
           </Badge>
           
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Find Your Perfect
-            <span className="block text-emerald">Equipment Match</span>
+            {t('categories.title')}
           </h2>
           
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Browse our curated categories to discover premium equipment from trusted local owners
+            {t('categories.subtitle')}
           </p>
         </div>
 
@@ -120,11 +121,11 @@ export function CategoryGrid() {
                 onClick={() => handleCategoryClick(category.id)}
               >
                 <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-6">
+                  <div className={`flex items-start justify-between mb-6 ${locale === 'he' ? 'flex-row-reverse' : ''}`}>
                     <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:bg-emerald-200">
                       <Icon className="w-8 h-8 text-emerald-600" />
                     </div>
-                    <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all duration-300" />
+                    <ArrowRight className={`w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-all duration-300 ${locale === 'he' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                   </div>
                   
                   <div className="mb-4">
@@ -159,10 +160,10 @@ export function CategoryGrid() {
         <div className="text-center mt-16">
           <button
             onClick={() => router.push('/browse')}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group ${locale === 'he' ? 'flex-row-reverse' : ''}`}
           >
-            <span>View All Categories</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <span>{t('categories.viewAll')}</span>
+            <ArrowRight className={`w-5 h-5 transition-transform ${locale === 'he' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
           </button>
         </div>
       </div>
